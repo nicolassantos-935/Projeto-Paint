@@ -6,7 +6,7 @@ def iniciar_figura_nova(event):
     global figura_nova
     if tipo_figura_var.get() == 'Linha':
         figura_nova = ("linha", (event.x, event.y, event.x, event.y))
-    elif tipo_figura_var.get() == 'Ovais':
+    elif tipo_figura_var.get() == 'Ovais': 
         figura_nova = ("oval", (event.x, event.y, event.x, event.y))
     else :
         figura_nova = ("rabisco", [(event.x, event.y)])
@@ -73,18 +73,30 @@ frame = Frame(root)
 paddings = {'padx': 5, 'pady': 5} 
 
 # label
-label = ttk.Label(frame,  text='Linha, Rabisco ou Ovais:')
+label = ttk.Label(frame,  text='Selecione a forma, a cor interna e a cor da linha:')
 label.grid(column=0, row=0, sticky=W, **paddings)
 
 # option menu
 tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
-option_menu = ttk.OptionMenu(frame, tipo_figura_var,
+option_menu_fig = ttk.OptionMenu(frame, tipo_figura_var,
                              'Linha', 'Linha', 'Rabisco', 'Ovais')
-option_menu.grid(column=1, row=0, sticky=W, **paddings)
+option_menu_fig.grid(column=1, row=0, sticky=W, **paddings)
+
+# option menu de cor interna
+cor_interna = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+option_menu_cor_int = ttk.OptionMenu(frame, cor_interna,
+                             "white", "white", "black", "red", "blue")
+option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
+
+# option menu de cor da linha
+cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
+                             "white", "white", "black")
+option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
 # Área de desenho
 canvas = Canvas(frame, bg='white', width=600, height=600)
-canvas.grid(column=0, row=1, columnspan=2, sticky=W, **paddings)
+canvas.grid(column=0, row=1, columnspan=4, sticky=W, **paddings)
 
 frame.pack()
 
