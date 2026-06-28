@@ -5,11 +5,14 @@ from tkinter import ttk
 def iniciar_figura_nova(event): 
     global figura_nova
     if tipo_figura_var.get() == 'Linha':
-        figura_nova = ("linha", (event.x, event.y, event.x, event.y))
+        figura_nova = ("linha", (event.x, event.y, event.x, event.y), cor_linha.get(), "")
     elif tipo_figura_var.get() == 'Ovais': 
-        figura_nova = ("oval", (event.x, event.y, event.x, event.y))
+        figura_nova = ("oval", (event.x, event.y, event.x, event.y), cor_linha.get(), cor_interna.get())
+    elif tipo_figura_var.get() == 'Retangulo':
+        figura_nova = ("retangulo", (event.x, event.y, event.x, event.y), cor_linha.get(), cor_interna.get())
     else :
-        figura_nova = ("rabisco", [(event.x, event.y)])
+        figura_nova = ("rabisco", [(event.x, event.y)], cor_linha.get(), "") # "" se refere a cor interna, que não existe para rabisco e linha, mas é guardada para manter o mesmo padrão de tupla (figura, valores, cor da linha, cor interna) para todas as figuras
+
 
 # Quando mouse é movido com o botão pressionado
 def atualizar_figura_nova(event):
@@ -17,9 +20,11 @@ def atualizar_figura_nova(event):
     if figura_nova[0] == "rabisco":
         figura_nova[1].append((event.x, event.y))
     elif figura_nova[0] == "oval":
-        figura_nova = ("oval", (figura_nova[1][0], figura_nova[1][1], event.x, event.y))
+        figura_nova = ("oval", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
+    elif figura_nova[0] == "retangulo":
+        figura_nova = ("retangulo", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
     else : # figura_nova[0] == "linha"
-        figura_nova = ("linha", (figura_nova[1][0], figura_nova[1][1], event.x, event.y))
+        figura_nova = ("linha", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
     desenhar_figuras()
     desenhar_figura_nova()
 
@@ -31,35 +36,44 @@ def incluir_figura_nova(event):
 
 def desenhar_figuras():
     canvas.delete("all")
-    for fig, values in figuras:
+    for fig, values, cor_linha, cor_interna in figuras:
+        if cor_interna == "Sem cor":
+            cor_interna = "" # Para que não haja conflito, já que "" é a cor "Sem cor" no tkinter
+
         if fig == "linha":
-            canvas.create_line(values[0], values[1], values[2], values[3])
+            canvas.create_line(values[0], values[1], values[2], values[3], fill = cor_linha)
         elif fig == "oval":
-            canvas.create_oval(values[0], values[1], values[2], values[3])    
+            canvas.create_oval(values[0], values[1], values[2], values[3], fill = cor_interna, outline = cor_linha) 
+        elif fig == "retangulo":
+            canvas.create_rectangle(values[0], values[1], values[2], values[3], fill = cor_interna, outline = cor_linha)
         else : # fig == "rabisco"
-            canvas.create_line(values)
+            canvas.create_line(values, fill = cor_linha)
 
+#Desenha a figura que está sendo desenhada, mas ainda não foi incluída em figuras
 def desenhar_figura_nova():
-    fig, values = figura_nova
-    if fig == "linha":
-        canvas.create_line(values[0], values[1], values[2], values[3], dash=(4, 2))
-    elif fig == "oval":
-        canvas.create_oval(values[0], values[1], values[2], values[3], dash=(4, 2))
-    else : # fig == "rabisco"
-        canvas.create_line(values, dash=(4, 2))
+    fig, values, cor_linha, cor_interna = figura_nova
+    if cor_interna == "Sem cor":
+        cor_interna = ""
 
+    if fig == "linha":
+        canvas.create_line(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_linha)
+    elif fig == "oval":
+        canvas.create_oval(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_interna, outline = cor_linha)
+    elif fig == "retangulo":
+        canvas.create_rectangle(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_interna, outline = cor_linha)
+    else : # fig == "rabisco"
+        canvas.create_line(values, dash=(4, 2), fill = cor_linha)
 
 def incompleta(figura):
-    fig, values = figura
+    fig, values, *_ = figura # "*_ " é usado para ignorar valores que não serão usados na função
     if fig == "linha":
         return (values[0], values[1]) == (values[2], values[3])
     elif fig == "oval":
+        return (values[0], values[1]) == (values[2], values[3])
+    elif fig == "retangulo":
         return (values[0], values[1]) == (values[2], values[3])
     else : # fig == "rabisco"
         return len(values) <= 1
-
-
-
 
 #******* MAIN *******#
 
@@ -79,23 +93,23 @@ label.grid(column=0, row=0, sticky=W, **paddings)
 # option menu
 tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_fig = ttk.OptionMenu(frame, tipo_figura_var,
-                             'Linha', 'Linha', 'Rabisco', 'Ovais')
+                             'Linha', 'Linha', 'Rabisco', 'Ovais', 'Retangulo')
 option_menu_fig.grid(column=1, row=0, sticky=W, **paddings)
 
 # option menu de cor interna
 cor_interna = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_cor_int = ttk.OptionMenu(frame, cor_interna,
-                             "white", "white", "black", "red", "blue")
+                             "Sem cor", "Sem cor", "white", "black", "red", "blue", "green", "yellow")
 option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
 
 # option menu de cor da linha
 cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
-                             "white", "white", "black")
+                             "black", "black", "white", "red", "blue", "green", "yellow")
 option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
 # Área de desenho
-canvas = Canvas(frame, bg='white', width=600, height=600)
+canvas = Canvas(frame, bg='white', width=1000, height=1000)
 canvas.grid(column=0, row=1, columnspan=4, sticky=W, **paddings)
 
 frame.pack()
