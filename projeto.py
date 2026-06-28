@@ -4,12 +4,18 @@ from tkinter import ttk
 # Quando mouse é pressionado
 def iniciar_figura_nova(event): 
     global figura_nova
+
+    #raio = ( (event.x - event.x)**2 + (event.y - event.y)**2 ) ** 0.5
+    
+    
     if tipo_figura_var.get() == 'Linha':
         figura_nova = ("linha", (event.x, event.y, event.x, event.y), cor_linha.get(), "")
     elif tipo_figura_var.get() == 'Ovais': 
         figura_nova = ("oval", (event.x, event.y, event.x, event.y), cor_linha.get(), cor_interna.get())
     elif tipo_figura_var.get() == 'Retangulo':
         figura_nova = ("retangulo", (event.x, event.y, event.x, event.y), cor_linha.get(), cor_interna.get())
+    elif tipo_figura_var.get() == "Circulo":
+        figura_nova = ("circulo", (event.x , event.y , event.x , event.y ), cor_linha.get(), cor_interna.get())
     else :
         figura_nova = ("rabisco", [(event.x, event.y)], cor_linha.get(), "") # "" se refere a cor interna, que não existe para rabisco e linha, mas é guardada para manter o mesmo padrão de tupla (figura, valores, cor da linha, cor interna) para todas as figuras
 
@@ -23,6 +29,9 @@ def atualizar_figura_nova(event):
         figura_nova = ("oval", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
     elif figura_nova[0] == "retangulo":
         figura_nova = ("retangulo", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
+    elif figura_nova[0] == "circulo":
+        
+        figura_nova = ("circulo", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
     else : # figura_nova[0] == "linha"
         figura_nova = ("linha", (figura_nova[1][0], figura_nova[1][1], event.x, event.y), figura_nova[2], figura_nova[3])
     desenhar_figuras()
@@ -36,6 +45,8 @@ def incluir_figura_nova(event):
 
 def desenhar_figuras():
     canvas.delete("all")
+  
+    
     for fig, values, cor_linha, cor_interna in figuras:
         if cor_interna == "Sem cor":
             cor_interna = "" # Para que não haja conflito, já que "" é a cor "Sem cor" no tkinter
@@ -46,12 +57,19 @@ def desenhar_figuras():
             canvas.create_oval(values[0], values[1], values[2], values[3], fill = cor_interna, outline = cor_linha) 
         elif fig == "retangulo":
             canvas.create_rectangle(values[0], values[1], values[2], values[3], fill = cor_interna, outline = cor_linha)
+        elif fig == "circulo":
+            circulo_x1,circulo_y1,circulo_x2,circulo_y2 = values[0],values[1],values[2],values[3]
+            raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5
+            
+            canvas.create_oval(values[0] - raio, values[1] - raio, values[2] + raio, values[3] + raio, fill = cor_interna, outline = cor_linha) 
+        
         else : # fig == "rabisco"
             canvas.create_line(values, fill = cor_linha)
 
 #Desenha a figura que está sendo desenhada, mas ainda não foi incluída em figuras
 def desenhar_figura_nova():
     fig, values, cor_linha, cor_interna = figura_nova
+  
     if cor_interna == "Sem cor":
         cor_interna = ""
 
@@ -61,6 +79,10 @@ def desenhar_figura_nova():
         canvas.create_oval(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_interna, outline = cor_linha)
     elif fig == "retangulo":
         canvas.create_rectangle(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_interna, outline = cor_linha)
+    elif fig == "circulo":
+        circulo_x1,circulo_y1,circulo_x2,circulo_y2 = values[0],values[1],values[2],values[3]
+        raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5    
+        canvas.create_oval(values[0] - raio, values[1] - raio, values[2] + raio, values[3] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha)
     else : # fig == "rabisco"
         canvas.create_line(values, dash=(4, 2), fill = cor_linha)
 
@@ -71,6 +93,8 @@ def incompleta(figura):
     elif fig == "oval":
         return (values[0], values[1]) == (values[2], values[3])
     elif fig == "retangulo":
+        return (values[0], values[1]) == (values[2], values[3])
+    elif fig == "circulo":
         return (values[0], values[1]) == (values[2], values[3])
     else : # fig == "rabisco"
         return len(values) <= 1
@@ -93,7 +117,7 @@ label.grid(column=0, row=0, sticky=W, **paddings)
 # option menu
 tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_fig = ttk.OptionMenu(frame, tipo_figura_var,
-                             'Linha', 'Linha', 'Rabisco', 'Ovais', 'Retangulo')
+                             'Linha', 'Linha', 'Rabisco', 'Ovais', 'Retangulo','Circulo')
 option_menu_fig.grid(column=1, row=0, sticky=W, **paddings)
 
 # option menu de cor interna
