@@ -98,6 +98,12 @@ def incompleta(figura):
         return (values[0], values[1]) == (values[2], values[3])
     else : # fig == "rabisco"
         return len(values) <= 1
+    
+def desfazer(event):
+    global figuras
+    if figuras:
+        figuras.pop()
+        desenhar_figuras()
 
 #******* MAIN *******#
 
@@ -142,5 +148,6 @@ frame.pack()
 canvas.bind('<ButtonPress-1>', iniciar_figura_nova)
 canvas.bind('<B1-Motion>', atualizar_figura_nova)
 canvas.bind('<ButtonRelease-1>', incluir_figura_nova)
+root.bind('<Control-z>', desfazer)
 
 root.mainloop()
