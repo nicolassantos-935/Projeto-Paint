@@ -61,7 +61,7 @@ def desenhar_figuras():
             circulo_x1,circulo_y1,circulo_x2,circulo_y2 = values[0],values[1],values[2],values[3]
             raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5
             
-            canvas.create_oval(values[0] - raio, values[1] - raio, values[2] + raio, values[3] + raio, fill = cor_interna, outline = cor_linha) 
+            canvas.create_oval(values[0] - raio, values[1] - raio, values[0] + raio, values[1] + raio, fill = cor_interna, outline = cor_linha) 
         
         else : # fig == "rabisco"
             canvas.create_line(values, fill = cor_linha)
@@ -82,7 +82,7 @@ def desenhar_figura_nova():
     elif fig == "circulo":
         circulo_x1,circulo_y1,circulo_x2,circulo_y2 = values[0],values[1],values[2],values[3]
         raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5    
-        canvas.create_oval(values[0] - raio, values[1] - raio, values[2] + raio, values[3] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha)
+        canvas.create_oval(values[0] - raio, values[1] - raio, values[0] + raio, values[1] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha)
     else : # fig == "rabisco"
         canvas.create_line(values, dash=(4, 2), fill = cor_linha)
 
@@ -104,6 +104,7 @@ def desfazer(event):
     if figuras:
         figuras.pop()
         desenhar_figuras()
+
 
 #******* MAIN *******#
 
@@ -139,7 +140,7 @@ option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
 option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
 # Área de desenho
-canvas = Canvas(frame, bg='white', width=1000, height=1000)
+canvas = Canvas(frame, bg='white', width=1920, height=1080)
 canvas.grid(column=0, row=1, columnspan=4, sticky=W, **paddings)
 
 frame.pack()
