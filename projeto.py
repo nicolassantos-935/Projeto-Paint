@@ -112,6 +112,7 @@ figuras = []       # Todas as figuras desenhadas
 figura_nova = None # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
 
 root = Tk()
+root.title("Paint 2.0")
 frame = Frame(root)
 
 # Widgets arranjados com Layout grid dentro de frame
@@ -140,7 +141,7 @@ option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
 option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
 # Área de desenho
-canvas = Canvas(frame, bg='white', width=1920, height=1080)
+canvas = Canvas(frame, bg='white', width=1000, height=800)
 canvas.grid(column=0, row=1, columnspan=4, sticky=W, **paddings)
 
 frame.pack()
