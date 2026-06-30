@@ -136,7 +136,7 @@ option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
 # option menu de cor da linha
 cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
-                             "black", "black", "white", "red", "blue", "green", "yellow",)
+                             "black", "black", "white", "red", "blue", "green", "yellow")
 option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
 # Área de desenho
