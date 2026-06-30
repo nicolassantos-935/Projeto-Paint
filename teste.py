@@ -109,15 +109,18 @@ def desfazer(event):#Metodo feito para desfazer a ultima figura desenhada utiliz
         desenhar_figuras()
 
 
+# Funções para escolha de cor personalizada utilizando colorchooser.askcolor, retornando em hexadecimal, aceito por fill e outline
+def escolher_cor_linha():
+    cor = colorchooser.askcolor(title="Escolha a cor da linha")
 
-def escolher_cor():
-    cor = colorchooser.askcolor(title="Escolha uma cor")
-      # Exibe a cor escolhida no console
-    cor_hex  = StringVar()
-    cor_hex.set(cor[1])  # Obtém a cor em formato hexadecimal
-    
-    return cor_hex.get()
- # Chama a função escolher_cor() para abrir a janela de seleção de cor e obter a cor selecionada
+    if cor[1] is not None:      # usuário não cancelou
+        cor_linha.set(cor[1])   
+
+def escolher_cor_interna():
+    cor = colorchooser.askcolor(title="Escolha a cor interna")
+
+    if cor[1] is not None:      # usuário não cancelou
+        cor_interna.set(cor[1])
 
 
 
@@ -128,7 +131,7 @@ figura_nova = None # Figura que está sendo desenhada, mas ainda não foi inclu�
 root = Tk()
 root.title("Paint 2.0")
 frame = Frame(root)
-personalizada = escolher_cor() # Chama a função escolher_cor() para abrir a janela de seleção de cor e obter a cor selecionada
+
 
 
 # Widgets arranjados com Layout grid dentro de frame
@@ -147,20 +150,26 @@ option_menu_fig.grid(column=1, row=0, sticky=W, **paddings)
 # option menu de cor interna
 cor_interna = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_cor_int = ttk.OptionMenu(frame, cor_interna,
-                             "Sem cor", "Sem cor", "white", "black", "red", "blue", "green", "yellow", f'{personalizada}')
+                             "Sem cor", "Sem cor", "white", "black", "red", "blue", "green", "yellow")
 
 option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
 
 # option menu de cor da linha
 cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
-                             "black", "black", "white", "red", "blue", "green", "yellow",f'{personalizada}') 
+                             "black", "black", "white", "red", "blue", "green", "yellow") 
 
 option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
+botao_cor_linha = ttk.Button(frame, text="Cor da linha personalizada", command=escolher_cor_linha)
+botao_cor_linha.grid(column=3, row=1, sticky=W, **paddings)
+
+botao_cor_interna = ttk.Button(frame, text="Cor interna personalizada", command=escolher_cor_interna)
+botao_cor_interna.grid(column=2, row=1, sticky=W, **paddings)
+
 # Área de desenho
 canvas = Canvas(frame, bg='white', width=1000, height=800)
-canvas.grid(column=0, row=1, columnspan=4, sticky=W, **paddings)
+canvas.grid(column=0, row=2, columnspan=4, sticky=W, **paddings)
 
 frame.pack()
 
