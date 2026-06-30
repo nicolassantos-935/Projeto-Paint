@@ -44,7 +44,7 @@ def incluir_figura_nova(event):
     desenhar_figuras()
 
 def desenhar_figuras(): #abriga o valor de todas as figuras desenhadas, usado para mudar o tipo de figura
-  
+    canvas.delete("all")
     
     for fig, values, cor_linha, cor_interna in figuras:
         if cor_interna == "Sem cor":
