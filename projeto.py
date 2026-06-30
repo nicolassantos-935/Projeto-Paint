@@ -43,8 +43,7 @@ def incluir_figura_nova(event):
         figuras.append(figura_nova) 
     desenhar_figuras()
 
-def desenhar_figuras():
-    canvas.delete("all")
+def desenhar_figuras(): #abriga o valor de todas as figuras desenhadas, usado para mudar o tipo de figura
   
     
     for fig, values, cor_linha, cor_interna in figuras:
@@ -81,8 +80,8 @@ def desenhar_figura_nova():
         canvas.create_rectangle(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_interna, outline = cor_linha)
     elif fig == "circulo":
         circulo_x1,circulo_y1,circulo_x2,circulo_y2 = values[0],values[1],values[2],values[3]
-        raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5    
-        canvas.create_oval(values[0] - raio, values[1] - raio, values[0] + raio, values[1] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha)
+        raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5   # calcula o raio do círculo a partir da distância entre o ponto inicial e o ponto final do mouse 
+        canvas.create_oval(values[0] - raio, values[1] - raio, values[0] + raio, values[1] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha) #faz um circulo ao fazer um oval com distancias iguais entre todos os pontos do circulo e o centro
     else : # fig == "rabisco"
         canvas.create_line(values, dash=(4, 2), fill = cor_linha)
 
@@ -99,7 +98,7 @@ def incompleta(figura):
     else : # fig == "rabisco"
         return len(values) <= 1
     
-def desfazer(event):
+def desfazer(event): #Metodo feito para desfazer a ultima figura desenhada utilizando a junção dos atalhos Ctrl + Z 
     global figuras
     if figuras:
         figuras.pop()
@@ -136,7 +135,7 @@ option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
 # option menu de cor da linha
 cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
 option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
-                             "black", "black", "white", "red", "blue", "green", "yellow")
+                             "black", "black", "white", "red", "blue", "green", "yellow","cor personalizada")
 option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
 
 # Área de desenho
@@ -151,4 +150,4 @@ canvas.bind('<B1-Motion>', atualizar_figura_nova)
 canvas.bind('<ButtonRelease-1>', incluir_figura_nova)
 root.bind('<Control-z>', desfazer)
 
-root.mainloop()
+root.mainloop() 
