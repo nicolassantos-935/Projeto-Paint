@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import colorchooser
 
 # Quando mouse é pressionado
 def iniciar_figura_nova(event): 
@@ -43,12 +44,14 @@ def incluir_figura_nova(event):
         figuras.append(figura_nova) 
     desenhar_figuras()
 
-def desenhar_figuras(): #abriga o valor de todas as figuras desenhadas, usado para mudar o tipo de figura
+def desenhar_figuras():#abriga o valor de todas as figuras desenhadas, usado para mudar o tipo de figura
     canvas.delete("all")
+  
     
     for fig, values, cor_linha, cor_interna in figuras:
         if cor_interna == "Sem cor":
-            cor_interna = "" # Para que não haja conflito, já que "" é a cor "Sem cor" no tkinter
+            cor_interna = "" # Para que não haja conflito, já que "" é a cor "Sem cor" no tkinter   
+         
 
         if fig == "linha":
             canvas.create_line(values[0], values[1], values[2], values[3], fill = cor_linha)
@@ -71,6 +74,7 @@ def desenhar_figura_nova():
   
     if cor_interna == "Sem cor":
         cor_interna = ""
+   
 
     if fig == "linha":
         canvas.create_line(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_linha)
@@ -80,8 +84,8 @@ def desenhar_figura_nova():
         canvas.create_rectangle(values[0], values[1], values[2], values[3], dash=(4, 2), fill = cor_interna, outline = cor_linha)
     elif fig == "circulo":
         circulo_x1,circulo_y1,circulo_x2,circulo_y2 = values[0],values[1],values[2],values[3]
-        raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5   # calcula o raio do círculo a partir da distância entre o ponto inicial e o ponto final do mouse 
-        canvas.create_oval(values[0] - raio, values[1] - raio, values[0] + raio, values[1] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha) #faz um circulo ao fazer um oval com distancias iguais entre todos os pontos do circulo e o centro
+        raio = ( (circulo_x1 - circulo_x2)**2 + (circulo_y1 - circulo_y2)**2 ) ** 0.5    
+        canvas.create_oval(values[0] - raio, values[1] - raio, values[0] + raio, values[1] + raio, dash=(4, 2), fill = cor_interna, outline = cor_linha)
     else : # fig == "rabisco"
         canvas.create_line(values, dash=(4, 2), fill = cor_linha)
 
@@ -98,50 +102,79 @@ def incompleta(figura):
     else : # fig == "rabisco"
         return len(values) <= 1
     
-def desfazer(event): #Metodo feito para desfazer a ultima figura desenhada utilizando a junção dos atalhos Ctrl + Z 
+def desfazer(event = None):#Função feito para desfazer a ultima figura desenhada utilizando o atalho Ctrl + Z ou o botão próprio
     global figuras
     if figuras:
         figuras.pop()
         desenhar_figuras()
 
 
-#******* MAIN *******#
+# Funções para escolha de cor personalizada utilizando colorchooser.askcolor, retornando em hexadecimal, aceito por fill e outline
+def escolher_cor_linha():
+    cor = colorchooser.askcolor(title="Escolha a cor da linha")
+
+    if cor[1] is not None:      # usuário não cancelou
+        cor_linha.set(cor[1])   
+
+def escolher_cor_interna():
+    cor = colorchooser.askcolor(title="Escolha a cor interna")
+
+    if cor[1] is not None:      # usuário não cancelou
+        cor_interna.set(cor[1])
+
+
+
 
 figuras = []       # Todas as figuras desenhadas
 figura_nova = None # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
 
-root = Tk()
-root.title("Paint 2.0")
-frame = Frame(root)
+root = Tk() #criando a janela principal
+root.title("Paint 2.0") #nomeando a janela
+frame = Frame(root) #criando um bloco para organizar widgets
+
 
 # Widgets arranjados com Layout grid dentro de frame
 paddings = {'padx': 5, 'pady': 5} 
 
 # label
-label = ttk.Label(frame,  text='Selecione a forma, a cor interna e a cor da linha:')
-label.grid(column=0, row=0, sticky=W, **paddings)
+label = ttk.Label(frame,  text='Selecione a forma, a cor interna e a cor da linha:') # cria um texto para guiar o usuário
+label.grid(column=0, row=0, sticky=W, **paddings) #posiciona a label
 
 # option menu
-tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu
 option_menu_fig = ttk.OptionMenu(frame, tipo_figura_var,
                              'Linha', 'Linha', 'Rabisco', 'Ovais', 'Retangulo','Circulo')
-option_menu_fig.grid(column=1, row=0, sticky=W, **paddings)
+option_menu_fig.grid(column=1, row=0, sticky=W, **paddings) #posiciona o option menu
 
 # option menu de cor interna
-cor_interna = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+cor_interna = StringVar(root) # Guarda a cor interna selecionada no option menu ou é atualizada pela função escolher_cor_interna
 option_menu_cor_int = ttk.OptionMenu(frame, cor_interna,
                              "Sem cor", "Sem cor", "white", "black", "red", "blue", "green", "yellow")
-option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
+
+option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings) #posiciona o option menu
 
 # option menu de cor da linha
-cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+cor_linha = StringVar(root) # Guarda a cor interna selecionada no option menu ou é atualizada pela função escolher_cor_linha
 option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
-                             "black", "black", "white", "red", "blue", "green", "yellow")
-option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
+                             "black", "black", "white", "red", "blue", "green", "yellow") 
+
+option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings) #posiciona o option menu
+
+# botão da seleção da cor interna
+botao_cor_interna = ttk.Button(frame, text="Cor interna personalizada", command=escolher_cor_interna)
+botao_cor_interna.grid(column=2, row=1, sticky=W, **paddings)
+
+# botão da seleção da cor da linha
+botao_cor_linha = ttk.Button(frame, text="Cor da linha personalizada", command=escolher_cor_linha)
+botao_cor_linha.grid(column=3, row=1, sticky=W, **paddings)
+
+# botão para desfazer, juntamente com o ctrl + z
+botao_desfazer = ttk.Button(frame, text="Desfazer ⤺", command=desfazer)
+botao_desfazer.grid(column=0, row = 1, sticky=W, **paddings)
 
 # Área de desenho
 canvas = Canvas(frame, bg='white', width=1000, height=800)
-canvas.grid(column=0, row=1, columnspan=4, sticky=W, **paddings)
+canvas.grid(column=0, row=2, columnspan=4, sticky=W, **paddings)
 
 frame.pack()
 
@@ -151,4 +184,4 @@ canvas.bind('<B1-Motion>', atualizar_figura_nova)
 canvas.bind('<ButtonRelease-1>', incluir_figura_nova)
 root.bind('<Control-z>', desfazer)
 
-root.mainloop() 
+root.mainloop()
