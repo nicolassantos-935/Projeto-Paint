@@ -102,7 +102,7 @@ def incompleta(figura):
     else : # fig == "rabisco"
         return len(values) <= 1
     
-def desfazer(event):#Metodo feito para desfazer a ultima figura desenhada utilizando a junção dos atalhos Ctrl + Z 
+def desfazer(event = None):#Função feito para desfazer a ultima figura desenhada utilizando o atalho Ctrl + Z ou o botão próprio
     global figuras
     if figuras:
         figuras.pop()
@@ -128,44 +128,49 @@ def escolher_cor_interna():
 figuras = []       # Todas as figuras desenhadas
 figura_nova = None # Figura que está sendo desenhada, mas ainda não foi incluída em figuras
 
-root = Tk()
-root.title("Paint 2.0")
-frame = Frame(root)
-
+root = Tk() #criando a janela principal
+root.title("Paint 2.0") #nomeando a janela
+frame = Frame(root) #criando um bloco para organizar widgets
 
 
 # Widgets arranjados com Layout grid dentro de frame
 paddings = {'padx': 5, 'pady': 5} 
 
 # label
-label = ttk.Label(frame,  text='Selecione a forma, a cor interna e a cor da linha:')
-label.grid(column=0, row=0, sticky=W, **paddings)
+label = ttk.Label(frame,  text='Selecione a forma, a cor interna e a cor da linha:') # cria um texto para guiar o usuário
+label.grid(column=0, row=0, sticky=W, **paddings) #posiciona a label
 
 # option menu
-tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+tipo_figura_var = StringVar(root) # Guarda o tipo de figura selecionado no option menu
 option_menu_fig = ttk.OptionMenu(frame, tipo_figura_var,
                              'Linha', 'Linha', 'Rabisco', 'Ovais', 'Retangulo','Circulo')
-option_menu_fig.grid(column=1, row=0, sticky=W, **paddings)
+option_menu_fig.grid(column=1, row=0, sticky=W, **paddings) #posiciona o option menu
 
 # option menu de cor interna
-cor_interna = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+cor_interna = StringVar(root) # Guarda a cor interna selecionada no option menu ou é atualizada pela função escolher_cor_interna
 option_menu_cor_int = ttk.OptionMenu(frame, cor_interna,
                              "Sem cor", "Sem cor", "white", "black", "red", "blue", "green", "yellow")
 
-option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings)
+option_menu_cor_int.grid(column=2, row=0, sticky=W, **paddings) #posiciona o option menu
 
 # option menu de cor da linha
-cor_linha = StringVar(root) # Guarda o tipo de figura selecionado no option menu (linha ou rabisco)
+cor_linha = StringVar(root) # Guarda a cor interna selecionada no option menu ou é atualizada pela função escolher_cor_linha
 option_menu_cor_lin = ttk.OptionMenu(frame, cor_linha,
                              "black", "black", "white", "red", "blue", "green", "yellow") 
 
-option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings)
+option_menu_cor_lin.grid(column=3, row=0, sticky=W, **paddings) #posiciona o option menu
 
+# botão da seleção da cor interna
+botao_cor_interna = ttk.Button(frame, text="Cor interna personalizada", command=escolher_cor_interna)
+botao_cor_interna.grid(column=2, row=1, sticky=W, **paddings)
+
+# botão da seleção da cor da linha
 botao_cor_linha = ttk.Button(frame, text="Cor da linha personalizada", command=escolher_cor_linha)
 botao_cor_linha.grid(column=3, row=1, sticky=W, **paddings)
 
-botao_cor_interna = ttk.Button(frame, text="Cor interna personalizada", command=escolher_cor_interna)
-botao_cor_interna.grid(column=2, row=1, sticky=W, **paddings)
+# botão para desfazer, juntamente com o ctrl + z
+botao_desfazer = ttk.Button(frame, text="Desfazer ⤺", command=desfazer)
+botao_desfazer.grid(column=0, row = 1, sticky=W, **paddings)
 
 # Área de desenho
 canvas = Canvas(frame, bg='white', width=1000, height=800)
