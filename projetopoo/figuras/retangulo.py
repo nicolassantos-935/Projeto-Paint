@@ -1,0 +1,39 @@
+from figuras.figura import Figura
+from dataclasses import dataclass
+
+
+@dataclass
+class Retangulo(Figura):
+    
+    '''
+    Esta classe permite a criacao de figuras retangulo a partir dos metodos da classe figura
+    sendo assim possivel desenhar retangulos no canvas, atualizar suas coordenadas durante a criaçao
+    e saber se a figura está imcompleta ou nao
+
+    
+    '''
+
+
+
+    x1:int
+    y1:int
+    x2:int
+    y2:int
+
+    def atualizar(self,x,y):
+        self.x2 = x
+        self.y2 = y
+
+    def desenhar(self,canvas, dash = ()):
+        if self.cor_interna=="Sem cor":
+            self.cor_interna = ""
+
+        canvas.create_rectangle(
+            self.x1, self.y1, self.x2, self.y2,
+            outline=self.cor_linha,
+            fill= self.cor_interna,
+            dash= dash
+        )
+
+    def incompleta(self):
+        return (self.x1, self.y1) == (self.x2, self.y2)
