@@ -37,4 +37,7 @@ class Oval(Figura):
         self.y2 = y
 
     def incompleta(self):
-        (self.x1, self.y1) == (self.x2,self.y2)
+        largura = abs(self.x2 - self.x1)
+        altura = abs(self.y2 - self.y1)
+
+        return largura <= 10 or altura <= 10

@@ -29,4 +29,5 @@ class Linha(Figura):
         self.y2 = y
 
     def incompleta(self): # Verifica se a linha possui comprimento zero.
-        return (self.x1, self.y1) == (self.x2, self.y2)
+        distancia = ((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2) ** 0.5
+        return distancia <= 5

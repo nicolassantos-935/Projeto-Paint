@@ -50,4 +50,4 @@ class Circulo(Figura):
     # O círculo é considerado incompleto se o centro
     # coincidir com o segundo ponto.
     def incompleta(self):
-        return (self.x1, self.y1) == (self.x2, self.y2)
+        return (((self.x2 - self.x1) ** 2) + ((self.y2 - self.y1) ** 2) ** 0.5) <= 3

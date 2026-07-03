@@ -36,4 +36,7 @@ class Retangulo(Figura):
         )
 
     def incompleta(self):
-        return (self.x1, self.y1) == (self.x2, self.y2)
+        largura = abs(self.x2 - self.x1)
+        altura = abs(self.y2 - self.y1)
+
+        return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1
