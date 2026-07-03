@@ -1,4 +1,4 @@
-from tk import PaintApp
+from paintapp import PaintApp
 
 # Função que irá executar todo o código
 def main():

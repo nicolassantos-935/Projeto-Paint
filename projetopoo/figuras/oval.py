@@ -40,4 +40,4 @@ class Oval(Figura):
         largura = abs(self.x2 - self.x1)
         altura = abs(self.y2 - self.y1)
 
-        return largura <= 10 or altura <= 10
+        return largura <= 5 or altura <= 5
