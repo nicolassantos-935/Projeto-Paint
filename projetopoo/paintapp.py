@@ -41,7 +41,45 @@ class PaintApp:
         ).grid(row=0, column=0, sticky= W, **paddings)
 
         # Menu de seleção de formas
-        ttk.OptionMenu(
+        self.formas = Frame(self.frame)
+        self.formas.grid(row=0, column=1, **paddings)
+
+
+        self.linha = PhotoImage(file="icones/linha.png")
+        ttk.Button(self.formas,
+               image=self.linha,
+               command= lambda: self.tipo_figura.set("Linha"),
+                width=3
+               ).grid(row=0, column=0)
+        
+        self.rabisco = PhotoImage(file="icones/rabisco.png")
+        ttk.Button(self.formas,
+               image=self.rabisco,
+               command= lambda: self.tipo_figura.set("Rabisco"),
+                width=3
+               ).grid(row=0, column=1)
+        
+        self.circulo = PhotoImage(file="icones/circulo.png")
+        ttk.Button(self.formas,
+               image=self.circulo,
+               command= lambda: self.tipo_figura.set("Circulo"),
+                width=3
+               ).grid(row=1, column=1)
+        
+        self.oval = PhotoImage(file="icones/oval.png")
+        ttk.Button(self.formas,
+               image=self.oval,
+               command= lambda: self.tipo_figura.set("Ovais"),
+                width=3
+               ).grid(row=1, column=0)
+        
+        self.retangulo = PhotoImage(file="icones/retangulo.png")
+        ttk.Button(self.formas,
+               image=self.retangulo,
+               command= lambda: self.tipo_figura.set("Retangulo"),
+                width=3
+               ).grid(row=0, column=3)
+        """ttk.OptionMenu(
             self.frame,
             self.tipo_figura,
             "Linha",
@@ -50,7 +88,7 @@ class PaintApp:
             "Ovais",
             "Retangulo",
             "Circulo"
-        ).grid(row=0, column=1, **paddings)
+        ).grid(row=0, column=1, **paddings)"""
 
         # Menu de seleção de cor de preenchimento
         ttk.OptionMenu(
@@ -78,7 +116,7 @@ class PaintApp:
             "green",
             "yellow"
         ).grid(row=0, column=3, **paddings)
-
+        
         # Botão de escolha de cor personalizada para linha
         ttk.Button(
             self.frame,
