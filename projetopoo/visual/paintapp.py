@@ -40,35 +40,35 @@ class PaintApp:
         self.formas.grid(row=0, column=1, padx= 5)
 
 
-        self.linha = PhotoImage(file="icones/linha.png")
+        self.linha = PhotoImage(file="projetopoo/visual/icones/linha.png")
         ttk.Button(self.formas,
                image=self.linha,
                command= lambda: self.tipo_figura.set("Linha"),
                 width=3
                ).grid(row=0, column=0)
         
-        self.rabisco = PhotoImage(file="icones/rabisco.png")
+        self.rabisco = PhotoImage(file="projetopoo/visual/icones/rabisco.png")
         ttk.Button(self.formas,
                image=self.rabisco,
                command= lambda: self.tipo_figura.set("Rabisco"),
                 width=3
                ).grid(row=0, column=1)
         
-        self.circulo = PhotoImage(file="icones/circulo.png")
+        self.circulo = PhotoImage(file="projetopoo/visual/icones/circulo.png")
         ttk.Button(self.formas,
                image=self.circulo,
                command= lambda: self.tipo_figura.set("Circulo"),
                 width=3
                ).grid(row=1, column=1)
         
-        self.oval = PhotoImage(file="icones/oval.png")
+        self.oval = PhotoImage(file="projetopoo/visual/icones/oval.png")
         ttk.Button(self.formas,
                image=self.oval,
                command= lambda: self.tipo_figura.set("Ovais"),
                 width=3
                ).grid(row=1, column=0)
         
-        self.retangulo = PhotoImage(file="icones/retangulo.png")
+        self.retangulo = PhotoImage(file="projetopoo/visual/icones/retangulo.png")
         ttk.Button(self.formas,
                image=self.retangulo,
                command= lambda: self.tipo_figura.set("Retangulo"),
