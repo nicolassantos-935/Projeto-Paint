@@ -1,8 +1,8 @@
-from figuras.linha import Linha
-from figuras.retangulo import Retangulo
-from figuras.circulo import Circulo
-from figuras.rabisco import Rabisco
-from figuras.oval import Oval
+from modelo.figuras.linha import Linha
+from modelo.figuras.retangulo import Retangulo
+from modelo.figuras.circulo import Circulo
+from modelo.figuras.rabisco import Rabisco
+from modelo.figuras.oval import Oval
 
 class FabricaFiguras:
 
