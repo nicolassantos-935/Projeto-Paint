@@ -17,13 +17,6 @@ class Linha(Figura):
     x2:int
     y2:int
 
-    def desenhar(self, canvas, dash = ()): # Desenha a linha no canvas.
-        canvas.create_line(
-            self.x1, self.y1, self.x2, self.y2,
-            dash= dash,
-            fill= self.cor_linha
-        )
-
     def atualizar(self, x, y): # Atualiza o ponto final da linha.
         self.x2 = x
         self.y2 = y

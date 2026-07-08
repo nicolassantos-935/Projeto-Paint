@@ -19,15 +19,6 @@ class Desenho:
         if self._figuras:
             self._figuras.pop()
 
-    def desenhar(self, canvas):
-        # Limpa o canvas para evitar desenhos duplicados.
-        canvas.delete("all")
-
-        # Redesenha todas as figuras armazenadas.
-        for figura in self._figuras:
-            figura.desenhar(canvas)
-            
-
     def listar(self):
         # Retorna a lista de figuras armazenadas.
         return self._figuras

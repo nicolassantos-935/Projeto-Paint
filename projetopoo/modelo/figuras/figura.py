@@ -19,10 +19,6 @@ class Figura(ABC):
     cor_interna: str
 
     @abstractmethod
-    def desenhar(self, canvas, dash = ()): # Método que será usado para desenhar as figuras
-        pass
-
-    @abstractmethod
     def atualizar(self, x, y): #Método que será usada para atualizar a posição das figuras
         pass
 

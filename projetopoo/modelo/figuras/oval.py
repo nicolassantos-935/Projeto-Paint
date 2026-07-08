@@ -16,21 +16,6 @@ class Oval(Figura):
     y1:int
     x2:int
     y2:int
-
-    def desenhar(self,canvas, dash = ()):
-        
-        if self.cor_interna=="Sem cor":
-            self.cor_interna = ""
-        
-        canvas.create_oval(
-            self.x1,
-            self.y1,
-            self.x2,
-            self.y2,
-            outline = self.cor_linha,
-            fill = self.cor_interna,
-            dash = dash
-        )
         
     def atualizar(self, x, y):
         self.x2 = x

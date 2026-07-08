@@ -16,7 +16,7 @@ class FabricaFiguras:
             return Retangulo(cor_linha,cor_interna,x,y,x,y)
 
         if tipo=="Ovais":
-            return Oval(cor_linha,cor_interna,x,y,x,y)
+            return Oval(cor_linha,cor_interna,x,y,x,y)  
 
         if tipo=="Circulo":
             return Circulo(cor_linha,cor_interna,x,y,x,y)

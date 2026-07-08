@@ -28,6 +28,7 @@ class PaintApp:
         self.tipo_figura = StringVar(value="Linha") 
         self.cor_linha = StringVar(value="black")
         self.cor_interna = StringVar(value="Sem cor")
+        
 
         # Cria mensagem instrucional
         ttk.Label(

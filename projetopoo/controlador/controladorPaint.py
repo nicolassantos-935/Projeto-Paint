@@ -5,7 +5,8 @@ from modelo.figuras.rabisco import *
 from modelo.figuras.retangulo import *
 from modelo.figuras.oval import *
 from visual.paintapp import *
-from modelo.fabrica import FabricaFiguras
+from visual.formasDesenhar import *
+from controlador.fabrica import FabricaFiguras
 from tkinter import colorchooser
 
 class ControladorPaint:
@@ -13,7 +14,7 @@ class ControladorPaint:
     def __init__(self, desenho: Desenho, visual: PaintApp):
         self.desenho = desenho
         self.visual = visual
-        self.figura_nova = None
+        self.figura_atual = None
 
         self.canvas = self.visual.canvas
 
@@ -33,14 +34,14 @@ class ControladorPaint:
             event.x,
             event.y,
             self.visual.cor_linha.get(),
-            self.visual.cor_interna.get()
+            self.visual.cor_interna.get(),
         )
 
     def atualizar_figura(self, event): # Atualiza a figura enquanto o mouse é arrastado.
 
         if self.figura_atual is None:
             return
-
+        
         self.figura_atual.atualizar(event.x, event.y)
 
         self.desenhar()
@@ -62,13 +63,11 @@ class ControladorPaint:
         self.canvas.delete("all")
 
         for figura in self.desenho.listar():
-            figura.desenhar(self.canvas)
+            FormasDesenhar.desenhar(self.canvas, figura)
 
         if self.figura_atual:
-            self.figura_atual.desenhar(
-                                self.canvas,
-                                dash=(4,2)
-                                    )
+            FormasDesenhar.desenhar(self.canvas, self.figura_atual, (4,2))
+                                
             
     def escolher_cor_linha(self): # Permite escolher uma cor personalizada para a linha.
 
