@@ -74,6 +74,25 @@ class FormasDesenhar:
             dash=dash
         )
 
+@staticmethod
+    def desenhar_quadrado(canvas, quadrado, dash = ()):
+        
+        #possibilita fazer quadrados para ambas direçõoes
+        dirx = 1 if quadrado.x2 > quadrado.x1 else -1
+        diry = 1 if quadrado.y2 > quadrado.y1 else -1
+        lado = quadrado.lado()
+
+        fill = "" if quadrado.cor_interna == "Sem cor" else quadrado.cor_interna
+
+        #desenha o quadrado utilizando o lado e a direção para garantir um uso suave
+        #quadrados perfeitos
+        canvas.create_rectangle(
+            quadrado.x1, quadrado.y1, quadrado.x1 + lado * dirx, quadrado.y1 + lado * diry,
+            outline=quadrado.cor_linha,
+            fill= fill,
+            dash = dash
+        )
+
     @staticmethod
     def desenhar(canvas, figura, dash = ()):
 
