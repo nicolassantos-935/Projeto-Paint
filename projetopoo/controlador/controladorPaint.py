@@ -6,13 +6,14 @@ from modelo.figuras.retangulo import *
 from modelo.figuras.oval import *
 from visual.paintapp import *
 from visual.formasDesenhar import *
-from tkinter import colorchooser
+from tkinter import colorchooser, filedialog
 from controlador.estados.estadoFiguraLinha import *
 from controlador.estados.estadoFiguraRetangulo import *
 from controlador.estados.estadoFiguraCirculo import *
 from controlador.estados.estadoFiguraRabisco import *
 from controlador.estados.estadoFiguraOval import *
 from controlador.estados.estadoFiguraQuadrado import *
+import pickle
 
 class ControladorPaint:
         
@@ -32,7 +33,10 @@ class ControladorPaint:
         self.canvas.bind("<B1-Motion>", self.atualizar_figura) # Movimento do mouse, atualiza constantemente a "posição final da figura"
         self.canvas.bind("<ButtonRelease-1>", self.finalizar_figura) # Soltar o botão do mouse, finaliza a figura
         self.visual.root.bind("<Control-z>", self.desfazer) # Comando de desfazer, que apaga a última figura desenhada no momento da chamada, nesse caso, pelo atalho do teclado
-        
+        self.visual.root.bind("<Control-s>", self.salvar) # Comando salvar, que possibilita salvar o canvas atual em um arquivo no dispositivo do usuário.
+        self.visual.root.bind("<Control-n>", self.novo) # Comando novo, que possibilita limpar o canvas atual.
+        self.visual.root.bind("<Control-o>", self.abrir) # Comando abrir, que possibilita abrir um canvas salvo em um arquivo no dispositivo do usuário.
+
         # Associa cada botão da interface ao estado correspondente,
         # alterando a ferramenta de desenho selecionada.
         self.visual.btn_linha.config(command = lambda: self.alterar_estado(EstadoFiguraLinha()))
@@ -41,6 +45,18 @@ class ControladorPaint:
         self.visual.btn_oval.config(command = lambda: self.alterar_estado(EstadoFiguraOval()))
         self.visual.btn_circulo.config(command = lambda: self.alterar_estado(EstadoFiguraCirculo()))
         self.visual.btn_quadrado.config(command = lambda: self.alterar_estado(EstadoFiguraQuadrado()))
+
+        self.visual.menu_arquivo.entryconfigure(
+            "Novo",
+            command=self.novo)
+
+        self.visual.menu_arquivo.entryconfigure(
+            "Abrir",
+            command=self.abrir)
+
+        self.visual.menu_arquivo.entryconfigure(
+            "Salvar",
+            command=self.salvar)
     
     def iniciar_figura(self, event): # Inicia a criação de uma nova figura.
         
@@ -78,33 +94,74 @@ class ControladorPaint:
 
     def desenhar(self): # Redesenha todas as figuras presentes no canvas.
 
-        self.canvas.delete("all")
-
-        for figura in self.desenho.listar():
-            FormasDesenhar.desenhar(self.canvas, figura)
-
-        if self.figura_atual:
-            FormasDesenhar.desenhar(self.canvas, self.figura_atual, (4,2))
-                                
+        self.visual.redesenhar(
+        self.desenho.listar(),
+        self.figura_atual
+    )
             
     def escolher_cor_linha(self): # Permite escolher uma cor personalizada para a linha.
 
-        cor = colorchooser.askcolor()
+        cor = self.visual.escolher_cor()
 
-        if cor[1]:
-            self.visual.cor_linha.set(cor[1])
+        if cor:
+            self.visual.cor_linha.set(cor)
 
     def escolher_cor_interna(self): # Permite escolher uma cor personalizada para o preenchimento.
 
-        cor = colorchooser.askcolor()
+        cor = self.visual.escolher_cor()
 
-        if cor[1]:
-            self.visual.cor_interna.set(cor[1])
+        if cor:
+            self.visual.cor_interna.set(cor)
 
     def desfazer(self, event=None): # Remove a última figura desenhada.
 
         self.desenho.desfazer()
         self.desenhar()
 
+    # Comandos que se referem ao manuseio de arquivos
+    def novo(self, event=None):
+        if self.visual.confirmar_novo():
+        
+            self.desenho.limpar()
+            self.desenhar()
 
+            self.visual.mostrar_info(
+                "Novo",
+                "Novo desenho criado."
+            )
+
+    def salvar(self, event=None):
+        caminho = self.visual.pedir_arquivo_salvar()
+
+        if caminho:
+            try:
+                self.desenho.salvar(caminho)
+                self.visual.mostrar_info(
+                    "Salvar",
+                    "Arquivo salvo com sucesso!"
+                )
+            except Exception as e:
+                self.visual.mostrar_erro(
+                    "Erro",
+                    f"Não foi possível salvar o arquivo.\n\n{e}"
+                )
+
+    def abrir(self, event=None):
+        caminho = self.visual.pedir_arquivo_abrir()
+
+        if caminho:
+            try:
+                self.desenho.abrir(caminho)
+                self.desenhar()
+
+                self.visual.mostrar_info(
+                "Abrir",
+                "Arquivo carregado com sucesso!"
+            )
+                
+            except Exception as e:
+                self.visual.mostrar_erro(
+                    "Erro",
+                    f"Não foi possível abrir o arquivo.\n\n{e}"
+            )
     

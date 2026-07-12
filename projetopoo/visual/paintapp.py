@@ -1,6 +1,6 @@
 from tkinter import *
-from tkinter import ttk
-
+from tkinter import ttk, filedialog, colorchooser, messagebox
+from visual.formasDesenhar import *
 
 
 class PaintApp:
@@ -14,6 +14,24 @@ class PaintApp:
         self.root = Tk() #criando a janela principal
         self.root.title("Paint 2.0") #nomeando a janela
 
+        self.root.bind("<F11>", self.alternar_tela_cheia)
+        self.root.bind("<Escape>", self.sair_tela_cheia)
+        
+        self.root.attributes("-fullscreen", True)
+
+        self.menu = Menu(self.root, bg="gray")
+
+        # Menu Arquivo
+        self.menu_arquivo = Menu(self.menu, tearoff=0)
+        self.menu_arquivo.add_command(label="Novo")
+        self.menu_arquivo.add_command(label="Abrir")
+        self.menu_arquivo.add_command(label="Salvar")
+        self.menu_arquivo.add_separator()
+        self.menu_arquivo.add_command(label="Sair", command=self.root.quit)
+
+        self.menu.add_cascade(label="Arquivo", menu=self.menu_arquivo)   
+        self.root.config(menu=self.menu)
+
 
         self.criar_interface()
 
@@ -22,7 +40,7 @@ class PaintApp:
         paddings = {'padx': 5, 'pady': 5} 
 
         self.frame = Frame(self.root) #criando um bloco para organizar widgets
-        self.frame.pack() # sobe para a janela
+        self.frame.pack(fill="both", expand=True) # sobe para a janela
         
         # criando variáveis e iniciando valores
         self.tipo_figura = StringVar(value="Linha") 
@@ -146,11 +164,59 @@ class PaintApp:
         self.canvas = Canvas(
             self.frame,
             bg="white",
-            width=1000,
-            height=800
         )
 
-        self.canvas.grid(row=2, column=0, columnspan=4)
+        self.canvas.grid(row=2, column=0, columnspan=4, sticky="nsew")
+
+        self.frame.rowconfigure(2, weight=1)
+        self.frame.columnconfigure(0, weight=1)
+    
+    def alternar_tela_cheia(self, event=None):
+        atual = self.root.attributes("-fullscreen")
+        self.root.attributes("-fullscreen", not atual)
+    
+    def sair_tela_cheia(self, event=None):
+        self.root.attributes("-fullscreen", False)
+
+    def redesenhar(self, figuras, figura_atual=None):
+        self.canvas.delete("all")
+
+        for figura in figuras:
+            FormasDesenhar.desenhar(self.canvas, figura)
+
+        if figura_atual:
+            FormasDesenhar.desenhar(
+                self.canvas,
+                figura_atual,
+                (4,2)
+            )
+
+    def pedir_arquivo_abrir(self):
+        return filedialog.askopenfilename(
+            filetypes=[("Arquivos Pickle", "*.pkl")]
+        )
+
+    def pedir_arquivo_salvar(self):
+        return filedialog.asksaveasfilename(
+            defaultextension=".pkl",
+            filetypes=[("Arquivos Pickle", "*.pkl")]
+        )
+
+    def escolher_cor(self):
+        cor = colorchooser.askcolor()
+        return cor[1]
+    
+    def mostrar_info(self, titulo, mensagem):
+        messagebox.showinfo(titulo, mensagem)
+
+    def mostrar_erro(self, titulo, mensagem):
+        messagebox.showerror(titulo, mensagem)
+
+    def confirmar_novo(self):
+        return messagebox.askyesno(
+            "Novo desenho",
+            "Deseja apagar o desenho atual?"
+        )
 
     def executar(self): # Inicia o loop principal da aplicação.
         self.root.mainloop()

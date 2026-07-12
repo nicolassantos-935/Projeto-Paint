@@ -1,3 +1,5 @@
+import pickle
+
 class Desenho:
     """
     Gerencia todas as figuras criadas pelo usuário.
@@ -19,6 +21,18 @@ class Desenho:
         if self._figuras:
             self._figuras.pop()
 
+    def limpar(self):
+        # apaga todas as figuras desenhas.
+        self._figuras.clear()
+
     def listar(self):
         # Retorna a lista de figuras armazenadas.
         return self._figuras
+
+    def salvar(self, caminho):
+        with open(caminho, "wb") as arquivo:
+            pickle.dump(self._figuras, arquivo)
+
+    def abrir(self, caminho):
+        with open(caminho, "rb") as arquivo:
+            self._figuras = pickle.load(arquivo)
