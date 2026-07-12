@@ -6,8 +6,13 @@ from modelo.figuras.retangulo import *
 from modelo.figuras.oval import *
 from visual.paintapp import *
 from visual.formasDesenhar import *
-from controlador.fabrica import FabricaFiguras
 from tkinter import colorchooser
+from controlador.estados.estadoFiguraLinha import *
+from controlador.estados.estadoFiguraRetangulo import *
+from controlador.estados.estadoFiguraCirculo import *
+from controlador.estados.estadoFiguraRabisco import *
+from controlador.estados.estadoFiguraOval import *
+from tkinter import * 
 
 class ControladorPaint:
         
@@ -15,6 +20,7 @@ class ControladorPaint:
         self.desenho = desenho
         self.visual = visual
         self.figura_atual = None
+        self.estado = EstadoFiguraLinha()
 
         self.canvas = self.visual.canvas
 
@@ -26,11 +32,18 @@ class ControladorPaint:
         self.canvas.bind("<B1-Motion>", self.atualizar_figura) # Movimento do mouse, atualiza constantemente a "posição final da figura"
         self.canvas.bind("<ButtonRelease-1>", self.finalizar_figura) # Soltar o botão do mouse, finaliza a figura
         self.visual.root.bind("<Control-z>", self.desfazer) # Comando de desfazer, que apaga a última figura desenhada no momento da chamada, nesse caso, pelo atalho do teclado
+        
+        # Associa cada botão da interface ao estado correspondente,
+        # alterando a ferramenta de desenho selecionada.
+        self.visual.btn_linha.config(command=lambda: self.alterar_estado(EstadoFiguraLinha()))
+        self.visual.btn_rabisco.config(command=lambda: self.alterar_estado(EstadoFiguraRabisco()))
+        self.visual.btn_retangulo.config(command=lambda: self.alterar_estado(EstadoFiguraRetangulo()))
+        self.visual.btn_oval.config(command=lambda: self.alterar_estado(EstadoFiguraOval()))
+        self.visual.btn_circulo.config(command=lambda: self.alterar_estado(EstadoFiguraCirculo()))
 
     def iniciar_figura(self, event): # Inicia a criação de uma nova figura.
         
-        self.figura_atual = FabricaFiguras.criar(
-            self.visual.tipo_figura.get(),
+        self.figura_atual = self.estado.criar_figura(
             event.x,
             event.y,
             self.visual.cor_linha.get(),
@@ -57,6 +70,10 @@ class ControladorPaint:
         self.figura_atual = None
 
         self.desenhar()
+
+    def alterar_estado(self, estado):
+
+        self.estado = estado
 
     def desenhar(self): # Redesenha todas as figuras presentes no canvas.
 
