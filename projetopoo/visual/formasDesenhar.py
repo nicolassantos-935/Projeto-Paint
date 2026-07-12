@@ -3,6 +3,7 @@ from modelo.figuras.rabisco import Rabisco
 from modelo.figuras.retangulo import Retangulo
 from modelo.figuras.oval import Oval
 from modelo.figuras.circulo import Circulo
+from modelo.figuras.quadrado import Quadrado
 
 class FormasDesenhar:
 
@@ -74,7 +75,7 @@ class FormasDesenhar:
             dash=dash
         )
 
-@staticmethod
+    @staticmethod
     def desenhar_quadrado(canvas, quadrado, dash = ()):
         
         #possibilita fazer quadrados para ambas direçõoes
@@ -107,7 +108,8 @@ FormasDesenhar._desenhadores = {
     Retangulo: FormasDesenhar.desenhar_retangulo,
     Circulo: FormasDesenhar.desenhar_circulo,
     Oval: FormasDesenhar.desenhar_oval,
-    Rabisco: FormasDesenhar.desenhar_rabisco
+    Rabisco: FormasDesenhar.desenhar_rabisco,
+    Quadrado: FormasDesenhar.desenhar_quadrado
     }
         
 

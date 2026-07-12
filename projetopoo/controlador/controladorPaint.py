@@ -12,7 +12,7 @@ from controlador.estados.estadoFiguraRetangulo import *
 from controlador.estados.estadoFiguraCirculo import *
 from controlador.estados.estadoFiguraRabisco import *
 from controlador.estados.estadoFiguraOval import *
-from controlador.estados.EstadoFiguraQuadrado import *
+from controlador.estados.estadoFiguraQuadrado import *
 
 class ControladorPaint:
         
@@ -40,7 +40,7 @@ class ControladorPaint:
         self.visual.btn_retangulo.config(command = lambda: self.alterar_estado(EstadoFiguraRetangulo()))
         self.visual.btn_oval.config(command = lambda: self.alterar_estado(EstadoFiguraOval()))
         self.visual.btn_circulo.config(command = lambda: self.alterar_estado(EstadoFiguraCirculo()))
-        self.visual.btm_quadrado.config(command = lambda: self.alterar_estado(EstadoFiguraQuadrado()))
+        self.visual.btn_quadrado.config(command = lambda: self.alterar_estado(EstadoFiguraQuadrado()))
     
     def iniciar_figura(self, event): # Inicia a criação de uma nova figura.
         

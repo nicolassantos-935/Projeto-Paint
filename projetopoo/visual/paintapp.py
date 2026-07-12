@@ -87,11 +87,12 @@ class PaintApp:
 
         # Ícone e botão para selecionar a ferramenta Quadrado.
         self.quadrado = PhotoImage(file="projetopoo/visual/icones/quadrado.png")
-        ttk.Button(self.formas,
-               image=self.quadrado,
-               command= lambda: self.tipo_figura.set("Quadrado"),
-                width=3
-               ).grid(row=1, column=2)
+        self.btn_quadrado = ttk.Button(
+            self.formas,
+            image=self.quadrado,
+            width=3
+        )
+        self.btn_quadrado.grid(row=1, column=2)
 
         # Menu de seleção de cor de preenchimento
         ttk.OptionMenu(
