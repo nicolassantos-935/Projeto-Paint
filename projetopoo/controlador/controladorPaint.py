@@ -14,6 +14,8 @@ from controlador.estados.estadoFiguraRabisco import *
 from controlador.estados.estadoFiguraOval import *
 from controlador.estados.estadoFiguraQuadrado import *
 from controlador.estados.estadoFiguraTriangulo import *
+from controlador.estados.estadoFiguraPentagono import *
+from controlador.estados.estadoFiguraHexagono import *
 import pickle
 
 class ControladorPaint:
@@ -47,7 +49,8 @@ class ControladorPaint:
         self.visual.btn_circulo.config(command = lambda: self.alterar_estado(EstadoFiguraCirculo()))
         self.visual.btn_quadrado.config(command = lambda: self.alterar_estado(EstadoFiguraQuadrado()))
         self.visual.btn_triangulo.config(command = lambda: self.alterar_estado(EstadoFiguraTriangulo()))
-
+        self.visual.btn_pentagono.config(command = lambda: self.alterar_estado(EstadoFiguraPentagono()))
+        self.visual.btn_hexagono.config(command = lambda: self.alterar_estado(EstadoFiguraHexagono()))
         self.visual.menu_arquivo.entryconfigure(
             "Novo",
             command=self.novo)

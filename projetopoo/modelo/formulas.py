@@ -28,20 +28,18 @@ class Formulas():
     def vertices(x1, y1, x2, y2, quantia_lados):
         
         dirx,diry = Formulas.direcao(x1, y1, x2, y2)
-        raio = Formulas.raio(x1, y1, x2, y2)
+        #raio = Formulas.raio(x1, y1, x2, y2)
+        raio_x = abs(x2 - x1)  
+        raio_y = abs(y2 - y1)  
+        
         vertices = []
         
         for i in range(quantia_lados):
             angulo = 2 * pi * i / quantia_lados - pi / 2
-            x = x1 + raio * cos(angulo)
-            y = y1 + raio * sin(angulo)
+            x = x1 + raio_x * cos(angulo) * dirx
+            y = y1 + raio_y * sin(angulo) * diry
             
             vertices.append((x, y))
         
-        vertices_usuais = [(x1 + (x - x1) * dirx,
-                 y1 + (y - y1) * diry)
-                for x, y in vertices]
-
-        
-        return vertices_usuais
+        return vertices
     

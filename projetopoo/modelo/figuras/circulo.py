@@ -11,9 +11,6 @@ class Circulo(Figura):
     x2: int
     y2: int
     
-    def calcular_raio (self):
-        return int((((self.x2 - self.x1) ** 2) + ((self.y2 - self.y1) ** 2)) ** 0.5)
-    
     # Atualiza o segundo ponto utilizado para calcular o raio.
     def atualizar(self, x, y):
         self.x2 = x

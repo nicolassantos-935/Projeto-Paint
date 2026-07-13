@@ -1,5 +1,6 @@
 from modelo.figuras.figura import Figura
 from dataclasses import dataclass
+
 @dataclass
 
 class Triangulo(Figura):

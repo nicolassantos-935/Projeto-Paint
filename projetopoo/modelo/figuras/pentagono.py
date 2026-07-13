@@ -1,14 +1,15 @@
 from modelo.figuras.figura import Figura
 from dataclasses import dataclass
 from modelo.formulas import Formulas
+
 @dataclass
-class Quadrado(Figura):
-    
+
+class Pentagono(Figura):
     '''
-    Esta classe permite a criacao de figuras quadrado a partir dos metodos da classe figura
-    sendo assim possivel desenhar quadrados no canvas, atualizar suas coordenadas durante a criaçao
-    e saber se a figura está imcompleta ou nao, alem disso, possui oo metado lado para para calcular lagura e altura, 
-    atributos essenciais para a criacao de quadrados e o metodo direcao para saber a direção do quadrado, 
+    Esta classe permite a criacao de figuras pentagono a partir dos metodos da classe figura
+    sendo assim possivel desenhar pentagonos no canvas, atualizar suas coordenadas durante a criaçao
+    e saber se a figura está imcompleta ou nao, alem disso, possui o metado vertices para para calcular
+    os vertices do pentagono, atributos essenciais para a criacao de pentagonos e o metodo direcao para saber a direção do pentagono, 
     se é para cima ou para baixo, esquerda ou direita
     '''
 
@@ -21,16 +22,13 @@ class Quadrado(Figura):
         self.x2 = x
         self.y2 = y
 
-
-    def lado(self):
-        largura = abs(self.x2 - self.x1)
-        altura = abs(self.y2 - self.y1)
-
-        return min(largura,altura)
+    def vertices(self):
+     
+        return Formulas.vertices(self.x1, self.y1, self.x2, self.y2,5)
     
     def direcao(self):
         return Formulas.direcao(self.x1, self.y1, self.x2, self.y2)
-    
+
     def incompleta(self):
         
         largura = abs(self.x2 - self.x1)

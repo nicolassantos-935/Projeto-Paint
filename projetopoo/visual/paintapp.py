@@ -63,7 +63,7 @@ class PaintApp:
         self.btn_linha = ttk.Button(
             self.formas,
             image=self.linha,
-            width=3
+            width=3 
         )
         self.btn_linha.grid(row=0, column=0)
         
@@ -119,8 +119,27 @@ class PaintApp:
             image=self.triangulo,
             width=3
         )
-        self.btn_triangulo.grid(row=0, column=3)
+        self.btn_triangulo.grid(row=2, column=0)
         
+        # Ícone e botão para selecionar a ferramenta Pentágono.
+        self.pentagono = PhotoImage(file="projetopoo/visual/icones/pentagono.png")
+        self.btn_pentagono = ttk.Button(
+            self.formas,
+            image=self.pentagono,
+            width=3
+        )
+        self.btn_pentagono.grid(row=2, column=1)
+        
+         # Ícone e botão para selecionar a ferramenta Hexagono.
+        self.hexagono = PhotoImage(file="projetopoo/visual/icones/hexagono.png")
+        self.btn_hexagono = ttk.Button(
+            self.formas,
+            image=self.hexagono,
+            width=3,
+        )
+        self.btn_hexagono.grid(row=2, column=2)
+
+
         # Menu de seleção de cor de preenchimento
         ttk.OptionMenu(
             self.frame,
