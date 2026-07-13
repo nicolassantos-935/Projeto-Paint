@@ -120,9 +120,10 @@ class FormasDesenhar:
     def desenhar_pentagono(canvas, pentagono, dash=()):
 
         fill = "" if pentagono.cor_interna == "Sem cor" else pentagono.cor_interna
-        vertices = pentagono.vertices()  
-
-        canvas.create_polygon(
+        vertices = pentagono.vertices()  #chama o metodo vertices da classe pentagono para encontrar estes dados
+        
+        #utiliza os vertices calculados como pontos para desenhar o pentagono
+        canvas.create_polygon( 
             vertices[0],
             vertices[1],
             vertices[2],
@@ -136,8 +137,9 @@ class FormasDesenhar:
     def desenhar_hexagono(canvas, hexagono, dash=()):
 
         fill = "" if hexagono.cor_interna == "Sem cor" else hexagono.cor_interna
-        vertices = hexagono.vertices()  
+        vertices = hexagono.vertices()  #chama o metodo vertices da classe hexagono encontrar estes dados
 
+        #utiliza os vertices calculados como pontos para desenhar o hexagono
         canvas.create_polygon(
             vertices[0],
             vertices[1],

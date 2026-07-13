@@ -23,7 +23,6 @@ class Hexagono(Figura):
         self.y2 = y
 
     def vertices(self):
-     
         return Formulas.vertices(self.x1, self.y1, self.x2, self.y2,6)
     
     def direcao(self):
