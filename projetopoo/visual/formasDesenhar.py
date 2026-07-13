@@ -4,6 +4,7 @@ from modelo.figuras.retangulo import Retangulo
 from modelo.figuras.oval import Oval
 from modelo.figuras.circulo import Circulo
 from modelo.figuras.quadrado import Quadrado
+from modelo.figuras.triangulo import Triangulo
 
 class FormasDesenhar:
 
@@ -79,8 +80,8 @@ class FormasDesenhar:
     def desenhar_quadrado(canvas, quadrado, dash = ()):
         
         #possibilita fazer quadrados para ambas direçõoes
-        dirx = 1 if quadrado.x2 > quadrado.x1 else -1
-        diry = 1 if quadrado.y2 > quadrado.y1 else -1
+        dirx = quadrado.direcao()[0]
+        diry = quadrado.direcao()[1]
         lado = quadrado.lado()
 
         fill = "" if quadrado.cor_interna == "Sem cor" else quadrado.cor_interna
@@ -88,8 +89,34 @@ class FormasDesenhar:
         #desenha o quadrado utilizando o lado e a direção para garantir um uso suave
         #quadrados perfeitos
         canvas.create_rectangle(
-            quadrado.x1, quadrado.y1, quadrado.x1 + lado * dirx, quadrado.y1 + lado * diry,
+            quadrado.x1, 
+            quadrado.y1, 
+            quadrado.x1 + lado * dirx, 
+            quadrado.y1 + lado * diry,
             outline=quadrado.cor_linha,
+            fill= fill,
+            dash = dash
+        )
+    
+    @staticmethod
+    def desenhar_Triangulo(canvas, triangulo, dash = ()):
+        
+        #calcula todas as porçoes do triangulo para desenha-lo corretamente
+        topo_x, topo_y = triangulo.topos()
+        base_esq_x, base_esq_y = triangulo.bases()[0]
+        base_dir_x, base_dir_y = triangulo.bases()[1]
+
+        fill = "" if triangulo.cor_interna == "Sem cor" else triangulo.cor_interna
+
+        #utiliza dos dados calculados anteriormente para desenhar o triangulo 
+        canvas.create_polygon(
+            topo_x, 
+            topo_y, 
+            base_esq_x, 
+            base_esq_y, 
+            base_dir_x, 
+            base_dir_y,
+            outline=triangulo.cor_linha,
             fill= fill,
             dash = dash
         )
@@ -109,7 +136,8 @@ FormasDesenhar._desenhadores = {
     Circulo: FormasDesenhar.desenhar_circulo,
     Oval: FormasDesenhar.desenhar_oval,
     Rabisco: FormasDesenhar.desenhar_rabisco,
-    Quadrado: FormasDesenhar.desenhar_quadrado
+    Quadrado: FormasDesenhar.desenhar_quadrado,
+    Triangulo: FormasDesenhar.desenhar_Triangulo
     }
         
 

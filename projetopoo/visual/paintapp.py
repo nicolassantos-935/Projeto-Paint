@@ -56,7 +56,7 @@ class PaintApp:
 
         # Menu de seleção de formas
         self.formas = Frame(self.frame)
-        self.formas.grid(row=0, column=1, padx= 5)
+        self.formas.grid(row=0, column=1, padx= 5, pady=5)
 
         # Ícone e botão para selecionar a ferramenta Linha.
         self.linha = PhotoImage(file="projetopoo/visual/icones/linha.png")
@@ -111,7 +111,16 @@ class PaintApp:
             width=3
         )
         self.btn_quadrado.grid(row=1, column=2)
-
+        
+        # Ícone e botão para selecionar a ferramenta Triângulo.
+        self.triangulo = PhotoImage(file="projetopoo/visual/icones/triangulo.png")
+        self.btn_triangulo = ttk.Button(
+            self.formas,
+            image=self.triangulo,
+            width=3
+        )
+        self.btn_triangulo.grid(row=0, column=3)
+        
         # Menu de seleção de cor de preenchimento
         ttk.OptionMenu(
             self.frame,
