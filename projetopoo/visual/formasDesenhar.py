@@ -7,9 +7,6 @@ from modelo.figuras.quadrado import Quadrado
 from modelo.figuras.triangulo import Triangulo
 from modelo.figuras.pentagono import Pentagono
 from modelo.figuras.hexagono import Hexagono
-from modelo.formulas import Formulas
-
-    
 
 class FormasDesenhar:
 
@@ -40,8 +37,7 @@ class FormasDesenhar:
         fill = "" if oval.cor_interna == "Sem cor" else oval.cor_interna
     
         canvas.create_oval(
-            (oval.x1,oval.y1),
-            (oval.x2,oval.y2),
+            oval.metades(),
             outline = oval.cor_linha,
             fill = fill,
             dash = dash
@@ -53,8 +49,7 @@ class FormasDesenhar:
         fill = "" if retangulo.cor_interna == "Sem cor" else retangulo.cor_interna
 
         canvas.create_rectangle(
-            (retangulo.x1, retangulo.y1),
-            (retangulo.x2, retangulo.y2),
+            retangulo.lados(),
             outline=retangulo.cor_linha,
             fill= fill,
             dash = dash
@@ -63,14 +58,11 @@ class FormasDesenhar:
     @staticmethod
     def desenhar_circulo(canvas, circulo, dash = ()):
 
-        raio = Formulas.raio(circulo.x1, circulo.y1, circulo.x2, circulo.y2)
-
         # Trata a cor interna "Sem cor"
         fill = "" if circulo.cor_interna == "Sem cor" else circulo.cor_interna
         # Desenha o círculo utilizando o centro e o raio.
         canvas.create_oval(
-            (circulo.x1 - raio,circulo.y1 - raio),
-            (circulo.x1 + raio,circulo.y1 + raio),
+            Circulo.porcoes(circulo),
             outline=circulo.cor_linha,
             fill=fill,
             dash=dash
@@ -78,19 +70,12 @@ class FormasDesenhar:
 
     @staticmethod
     def desenhar_quadrado(canvas, quadrado, dash = ()):
-        
-        #possibilita fazer quadrados para ambas direçõoes
-        dirx = quadrado.direcao()[0]
-        diry = quadrado.direcao()[1]
-        lado = quadrado.lado()
 
         fill = "" if quadrado.cor_interna == "Sem cor" else quadrado.cor_interna
 
-        #desenha o quadrado utilizando o lado e a direção para garantir um uso suave e
-        #quadrados perfeitos
+        #desenha o quadrado utilizando os dados do metodo lados_iguais da classe quadrado
         canvas.create_rectangle(
-            (quadrado.x1, quadrado.y1),
-            (quadrado.x1 + lado * dirx, quadrado.y1 + lado * diry),
+            quadrado.lados_iguais(),
             outline=quadrado.cor_linha,
             fill= fill,
             dash = dash
@@ -99,18 +84,11 @@ class FormasDesenhar:
     @staticmethod
     def desenhar_Triangulo(canvas, triangulo, dash = ()):
         
-        #calcula todas as porçoes do triangulo para desenha-lo corretamente
-        topo_x, topo_y = triangulo.topos()
-        base_esq_x, base_esq_y = triangulo.bases()[0]
-        base_dir_x, base_dir_y = triangulo.bases()[1]
-
         fill = "" if triangulo.cor_interna == "Sem cor" else triangulo.cor_interna
 
-        #utiliza dos dados calculados anteriormente para desenhar o triangulo 
+        #utiliza dos dados calculados no metodo partes da classe triangulo para desenhar o triangulo
         canvas.create_polygon(
-            (topo_x, topo_y), 
-            (base_esq_x, base_esq_y), 
-            (base_dir_x, base_dir_y),
+            triangulo.partes(),
             outline=triangulo.cor_linha,
             fill= fill,
             dash = dash
@@ -124,11 +102,7 @@ class FormasDesenhar:
         
         #utiliza os vertices calculados como pontos para desenhar o pentagono
         canvas.create_polygon( 
-            vertices[0],
-            vertices[1],
-            vertices[2],
-            vertices[3],
-            vertices[4],
+            *vertices,
             outline=pentagono.cor_linha,
             fill=fill,
             dash=dash
@@ -141,12 +115,7 @@ class FormasDesenhar:
 
         #utiliza os vertices calculados como pontos para desenhar o hexagono
         canvas.create_polygon(
-            vertices[0],
-            vertices[1],
-            vertices[2],
-            vertices[3],
-            vertices[4],
-            vertices[5],
+            *vertices,
             outline=hexagono.cor_linha,
             fill=fill,
             dash=dash

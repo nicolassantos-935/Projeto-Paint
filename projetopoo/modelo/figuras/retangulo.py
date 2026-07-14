@@ -19,6 +19,13 @@ class Retangulo(Figura):
     def atualizar(self,x,y):
         self.x2 = x
         self.y2 = y
+    
+    def lados(self):
+        
+        lados_esq = (self.x1, self.y1)
+        lados_dir = (self.x2, self.y2)
+        
+        return (lados_esq, lados_dir)
 
     def incompleta(self):
         largura = abs(self.x2 - self.x1)
