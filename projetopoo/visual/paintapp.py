@@ -94,46 +94,27 @@ class PaintApp:
         self.btn_hexagono = BotoesFormas.btn_hexagono(self.formas)
         self.btn_hexagono.grid(row=2, column=2)
         
-        # Menu de seleção de cor de preenchimento
-        ttk.OptionMenu(
-            self.frame,
-            self.cor_interna,
-            "Sem cor",
-            "Sem cor",
-            "white",
-            "black",
-            "red",
-            "blue",
-            "green",
-            "yellow"
-        ).grid(row=0, column=2, **paddings)
+        # Amostragem de seleção de cor interna
+        self.mostra_cor_int = Label(self.frame, bg="black", width=4, height=2, relief="sunken", bd=2)
+        self.mostra_cor_int.grid(row=0, column=2, pady=(70, 0))
 
-        # Menu de seleção de cor externa
-        ttk.OptionMenu(
-            self.frame,
-            self.cor_linha,
-            "black",
-            "black",
-            "white",
-            "red",
-            "blue",
-            "green",
-            "yellow"
-        ).grid(row=0, column=3, **paddings)
+        # Amostragem de seleção de cor da linha
+        self.mostra_cor_lin = Label(self.frame, bg="black", width=4, height=2, relief="sunken", bd=2)
+        self.mostra_cor_lin.grid(row=0, column=3, pady=(70, 0))
         
         # Botão de escolha de cor personalizada para linha
         self.btn_cor_linha = ttk.Button(
             self.frame,
             text="Cor linha",
         )
-        self.btn_cor_linha.grid(row=1, column=3, **paddings)
+        self.btn_cor_linha.grid(row=0, column=3, **paddings)
 
         # Botão de escolha de cor personalizada para preenchimento
         self.btn_cor_interna = ttk.Button(
             self.frame,
             text="Cor interna",
         )
-        self.btn_cor_interna.grid(row=1, column=2, **paddings)
+        self.btn_cor_interna.grid(row=0, column=2, **paddings)
 
         # Botão de desfazer
         self.btn_desfazer =ttk.Button(

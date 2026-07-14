@@ -110,6 +110,7 @@ class ControladorPaint:
 
         if cor:
             self.visual.cor_linha.set(cor)
+            self.visual.mostra_cor_lin.config(bg=cor)
 
     def escolher_cor_interna(self): # Permite escolher uma cor personalizada para o preenchimento.
 
@@ -117,6 +118,7 @@ class ControladorPaint:
 
         if cor:
             self.visual.cor_interna.set(cor)
+            self.visual.mostra_cor_int.config(bg=cor)
 
     def desfazer(self, event=None): # Remove a última figura desenhada.
 
