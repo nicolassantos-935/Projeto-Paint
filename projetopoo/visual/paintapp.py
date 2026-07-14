@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk, filedialog, colorchooser, messagebox
 from visual.formasDesenhar import *
-
+from visual.botoes_formas import *
 
 class PaintApp:
     """
@@ -31,7 +31,7 @@ class PaintApp:
 
         self.menu.add_cascade(label="Arquivo", menu=self.menu_arquivo)   
         self.root.config(menu=self.menu)
-
+        
 
         self.criar_interface()
 
@@ -46,7 +46,7 @@ class PaintApp:
         self.tipo_figura = StringVar(value="Linha") 
         self.cor_linha = StringVar(value="black")
         self.cor_interna = StringVar(value="Sem cor")
-        
+    
 
         # Cria mensagem instrucional
         ttk.Label(
@@ -59,87 +59,41 @@ class PaintApp:
         self.formas.grid(row=0, column=1, padx= 5, pady=5)
 
         # Ícone e botão para selecionar a ferramenta Linha.
-        self.linha = PhotoImage(file="projetopoo/visual/icones/linha.png")
-        self.btn_linha = ttk.Button(
-            self.formas,
-            image=self.linha,
-            width=3 
-        )
+        self.btn_linha = BotoesFormas.btn_linha(self.formas)
         self.btn_linha.grid(row=0, column=0)
         
         # Ícone e botão para selecionar a ferramenta Rabisco.
-        self.rabisco = PhotoImage(file="projetopoo/visual/icones/rabisco.png")
-        self.btn_rabisco = ttk.Button(
-            self.formas,
-            image=self.rabisco,
-            width=3
-        )
+        self.btn_rabisco = BotoesFormas.btn_rabisco(self.formas)
         self.btn_rabisco.grid(row=0, column=1)
         
         # Ícone e botão para selecionar a ferramenta Círculo.
-        self.circulo = PhotoImage(file="projetopoo/visual/icones/circulo.png")
-        self.btn_circulo = ttk.Button(
-            self.formas,
-            image=self.circulo,
-            width=3
-        )
+        self.btn_circulo = BotoesFormas.btn_circulo(self.formas)
         self.btn_circulo.grid(row=1, column=1)
         
         # Ícone e botão para selecionar a ferramenta Oval.
-        self.oval = PhotoImage(file="projetopoo/visual/icones/oval.png")
-        self.btn_oval = ttk.Button(
-            self.formas,
-            image=self.oval,
-            width=3
-        )
+        self.btn_oval = BotoesFormas.btn_oval(self.formas)
         self.btn_oval.grid(row=1, column=0)
         
         # Ícone e botão para selecionar a ferramenta Retângulo.
-        self.retangulo = PhotoImage(file="projetopoo/visual/icones/retangulo.png")
-        self.btn_retangulo = ttk.Button(
-            self.formas,
-            image=self.retangulo,
-            width=3
-        )
+        self.btn_retangulo = BotoesFormas.btn_retangulo(self.formas)
         self.btn_retangulo.grid(row=0, column=2)
 
         # Ícone e botão para selecionar a ferramenta Quadrado.
-        self.quadrado = PhotoImage(file="projetopoo/visual/icones/quadrado.png")
-        self.btn_quadrado = ttk.Button(
-            self.formas,
-            image=self.quadrado,
-            width=3
-        )
+        self.btn_quadrado = BotoesFormas.btn_quadrado(self.formas)
         self.btn_quadrado.grid(row=1, column=2)
         
         # Ícone e botão para selecionar a ferramenta Triângulo.
-        self.triangulo = PhotoImage(file="projetopoo/visual/icones/triangulo.png")
-        self.btn_triangulo = ttk.Button(
-            self.formas,
-            image=self.triangulo,
-            width=3
-        )
+        self.btn_triangulo = BotoesFormas.btn_triangulo(self.formas)
         self.btn_triangulo.grid(row=2, column=0)
         
         # Ícone e botão para selecionar a ferramenta Pentágono.
-        self.pentagono = PhotoImage(file="projetopoo/visual/icones/pentagono.png")
-        self.btn_pentagono = ttk.Button(
-            self.formas,
-            image=self.pentagono,
-            width=3
-        )
+        self.btn_pentagono = BotoesFormas.btn_pentagono(self.formas)
         self.btn_pentagono.grid(row=2, column=1)
         
          # Ícone e botão para selecionar a ferramenta Hexagono.
-        self.hexagono = PhotoImage(file="projetopoo/visual/icones/hexagono.png")
-        self.btn_hexagono = ttk.Button(
-            self.formas,
-            image=self.hexagono,
-            width=3,
-        )
+        self.btn_hexagono = BotoesFormas.btn_hexagono(self.formas)
         self.btn_hexagono.grid(row=2, column=2)
-
-
+        
         # Menu de seleção de cor de preenchimento
         ttk.OptionMenu(
             self.frame,
