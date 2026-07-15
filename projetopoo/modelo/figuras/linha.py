@@ -1,5 +1,6 @@
 from modelo.figuras.figura import Figura
 from dataclasses import dataclass
+from modelo.formulas import *
 
 @dataclass
 class Linha(Figura):
@@ -27,3 +28,12 @@ class Linha(Figura):
     def incompleta(self): # Verifica se a linha possui comprimento zero.
         distancia = ((self.x2 - self.x1)**2 + (self.y2 - self.y1)**2) ** 0.5
         return distancia <= 5
+    def contem(self, x, y):
+
+        return (
+            Formulas.distancia_ponto_segmento(
+                x, y,
+                self.x1, self.y1,
+                self.x2, self.y2
+            ) <= 5
+        )

@@ -6,17 +6,17 @@ from modelo.figuras.retangulo import *
 from modelo.figuras.oval import *
 from visual.paintapp import *
 from visual.formasDesenhar import *
-from tkinter import colorchooser, filedialog
-from controlador.estados.estadoFiguraLinha import *
-from controlador.estados.estadoFiguraRetangulo import *
-from controlador.estados.estadoFiguraCirculo import *
-from controlador.estados.estadoFiguraRabisco import *
-from controlador.estados.estadoFiguraOval import *
-from controlador.estados.estadoFiguraQuadrado import *
-from controlador.estados.estadoFiguraTriangulo import *
-from controlador.estados.estadoFiguraPentagono import *
-from controlador.estados.estadoFiguraHexagono import *
-import pickle
+
+from controlador.estados.criacaodefiguras.estadoFiguraLinha import *
+from controlador.estados.criacaodefiguras.estadoFiguraRetangulo import *
+from controlador.estados.criacaodefiguras.estadoFiguraCirculo import *
+from controlador.estados.criacaodefiguras.estadoFiguraRabisco import *
+from controlador.estados.criacaodefiguras.estadoFiguraOval import *
+from controlador.estados.criacaodefiguras.estadoFiguraQuadrado import *
+from controlador.estados.criacaodefiguras.estadoFiguraTriangulo import *
+from controlador.estados.criacaodefiguras.estadoFiguraPentagono import *
+from controlador.estados.criacaodefiguras.estadoFiguraHexagono import *
+from controlador.estados.estadoSelecao import *
 
 class ControladorPaint:
         
@@ -25,6 +25,7 @@ class ControladorPaint:
         self.visual = visual
         self.figura_atual = None
         self.estado = EstadoFiguraLinha()
+        self.figura_selecionada = None
 
         self.canvas = self.visual.canvas
 
@@ -32,9 +33,9 @@ class ControladorPaint:
         self.visual.btn_cor_interna.config(command=self.escolher_cor_interna)
         self.visual.btn_cor_linha.config(command=self.escolher_cor_linha)
             
-        self.canvas.bind("<ButtonPress-1>", self.iniciar_figura) # CLique do mouse inicia figura
-        self.canvas.bind("<B1-Motion>", self.atualizar_figura) # Movimento do mouse, atualiza constantemente a "posição final da figura"
-        self.canvas.bind("<ButtonRelease-1>", self.finalizar_figura) # Soltar o botão do mouse, finaliza a figura
+        self.canvas.bind("<ButtonPress-1>", self.clicar) # CLique do mouse inicia figura
+        self.canvas.bind("<B1-Motion>", self.arrastar) # Movimento do mouse, atualiza constantemente a "posição final da figura"
+        self.canvas.bind("<ButtonRelease-1>", self.soltar) # Soltar o botão do mouse, finaliza a figura
         self.visual.root.bind("<Control-z>", self.desfazer) # Comando de desfazer, que apaga a última figura desenhada no momento da chamada, nesse caso, pelo atalho do teclado
         self.visual.root.bind("<Control-s>", self.salvar) # Comando salvar, que possibilita salvar o canvas atual em um arquivo no dispositivo do usuário.
         self.visual.root.bind("<Control-n>", self.novo) # Comando novo, que possibilita limpar o canvas atual.
@@ -51,6 +52,8 @@ class ControladorPaint:
         self.visual.btn_triangulo.config(command = lambda: self.alterar_estado(EstadoFiguraTriangulo()))
         self.visual.btn_pentagono.config(command = lambda: self.alterar_estado(EstadoFiguraPentagono()))
         self.visual.btn_hexagono.config(command = lambda: self.alterar_estado(EstadoFiguraHexagono()))
+        self.visual.btn_selecao.config(command=lambda: self.alterar_estado(EstadoSelecao()))
+
         self.visual.menu_arquivo.entryconfigure(
             "Novo",
             command=self.novo)
@@ -63,45 +66,29 @@ class ControladorPaint:
             "Salvar",
             command=self.salvar)
     
-    def iniciar_figura(self, event): # Inicia a criação de uma nova figura.
-        
-        self.figura_atual = self.estado.criar_figura(
-            event.x,
-            event.y,
-            self.visual.cor_linha.get(),
-            self.visual.cor_interna.get(),
-        )
+    def clicar(self, event):
+        self.estado.clicar(self, event)
 
-    def atualizar_figura(self, event): # Atualiza a figura enquanto o mouse é arrastado.
 
-        if self.figura_atual is None:
-            return
-        
-        self.figura_atual.atualizar(event.x, event.y)
+    def arrastar(self, event):
+        self.estado.arrastar(self, event)
 
-        self.desenhar()
 
-    def finalizar_figura(self, event): # Finaliza a figura e a adiciona ao desenho.
-
-        if self.figura_atual is None:
-            return
-
-        if not self.figura_atual.incompleta():
-            self.desenho.adicionar(self.figura_atual)
-
-        self.figura_atual = None
-
-        self.desenhar()
+    def soltar(self, event):
+        self.estado.soltar(self, event)
 
     def alterar_estado(self, estado):
 
         self.estado = estado
-
+        self.figura_selecionada = None
+        self.desenhar()
+        
     def desenhar(self): # Redesenha todas as figuras presentes no canvas.
 
         self.visual.redesenhar(
         self.desenho.listar(),
-        self.figura_atual
+        self.figura_atual,
+        self.figura_selecionada
     )
             
     def escolher_cor_linha(self): # Permite escolher uma cor personalizada para a linha.
@@ -171,4 +158,9 @@ class ControladorPaint:
                     "Erro",
                     f"Não foi possível abrir o arquivo.\n\n{e}"
             )
+                
+    def selecionar(self, x, y):
+
+        self.figura_selecionada = self.desenho.selecionar(x, y)
+        self.desenhar()
     

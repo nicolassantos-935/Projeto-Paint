@@ -88,11 +88,10 @@ class FormasDesenhar:
 
         #utiliza dos dados calculados no metodo partes da classe triangulo para desenhar o triangulo
         canvas.create_polygon(
-            triangulo.partes(),
-            outline=triangulo.cor_linha,
-            fill= fill,
-            dash = dash
-        )
+        *triangulo.partes(),
+        outline=triangulo.cor_linha,
+        fill=fill
+    )
     
     @staticmethod
     def desenhar_pentagono(canvas, pentagono, dash=()):

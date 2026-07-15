@@ -1,7 +1,8 @@
 from tkinter import *
 from tkinter import ttk, filedialog, colorchooser, messagebox
 from visual.formasDesenhar import *
-from visual.botoes_formas import *
+from visual.formasSelecao import *
+from visual.botoesEstados import *
 
 class PaintApp:
     """
@@ -55,44 +56,48 @@ class PaintApp:
         ).grid(row=0, column=0, sticky= W, **paddings)
 
         # Menu de seleção de formas
-        self.formas = Frame(self.frame)
-        self.formas.grid(row=0, column=1, padx= 5, pady=5)
+        self.estados = Frame(self.frame)
+        self.estados.grid(row=0, column=1, padx= 5, pady=5)
+
+        # Ícone e botão para selecionar a ferramenta Seleção.
+        self.btn_selecao = BotoesEstados.btn_selecao(self.estados)
+        self.btn_selecao.grid(row=0, column=2)
 
         # Ícone e botão para selecionar a ferramenta Linha.
-        self.btn_linha = BotoesFormas.btn_linha(self.formas)
+        self.btn_linha = BotoesEstados.btn_linha(self.estados)
         self.btn_linha.grid(row=0, column=0)
         
         # Ícone e botão para selecionar a ferramenta Rabisco.
-        self.btn_rabisco = BotoesFormas.btn_rabisco(self.formas)
+        self.btn_rabisco = BotoesEstados.btn_rabisco(self.estados)
         self.btn_rabisco.grid(row=0, column=1)
         
         # Ícone e botão para selecionar a ferramenta Círculo.
-        self.btn_circulo = BotoesFormas.btn_circulo(self.formas)
-        self.btn_circulo.grid(row=1, column=1)
+        self.btn_circulo = BotoesEstados.btn_circulo(self.estados)
+        self.btn_circulo.grid(row=1, column=0)
         
         # Ícone e botão para selecionar a ferramenta Oval.
-        self.btn_oval = BotoesFormas.btn_oval(self.formas)
-        self.btn_oval.grid(row=1, column=0)
+        self.btn_oval = BotoesEstados.btn_oval(self.estados)
+        self.btn_oval.grid(row=1, column=1)
         
         # Ícone e botão para selecionar a ferramenta Retângulo.
-        self.btn_retangulo = BotoesFormas.btn_retangulo(self.formas)
-        self.btn_retangulo.grid(row=0, column=2)
+        self.btn_retangulo = BotoesEstados.btn_retangulo(self.estados)
+        self.btn_retangulo.grid(row=2, column=0)
 
         # Ícone e botão para selecionar a ferramenta Quadrado.
-        self.btn_quadrado = BotoesFormas.btn_quadrado(self.formas)
-        self.btn_quadrado.grid(row=1, column=2)
+        self.btn_quadrado = BotoesEstados.btn_quadrado(self.estados)
+        self.btn_quadrado.grid(row=2, column=1)
         
         # Ícone e botão para selecionar a ferramenta Triângulo.
-        self.btn_triangulo = BotoesFormas.btn_triangulo(self.formas)
-        self.btn_triangulo.grid(row=2, column=0)
+        self.btn_triangulo = BotoesEstados.btn_triangulo(self.estados)
+        self.btn_triangulo.grid(row=1, column=2)
         
         # Ícone e botão para selecionar a ferramenta Pentágono.
-        self.btn_pentagono = BotoesFormas.btn_pentagono(self.formas)
-        self.btn_pentagono.grid(row=2, column=1)
+        self.btn_pentagono = BotoesEstados.btn_pentagono(self.estados)
+        self.btn_pentagono.grid(row=2, column=2)
         
          # Ícone e botão para selecionar a ferramenta Hexagono.
-        self.btn_hexagono = BotoesFormas.btn_hexagono(self.formas)
-        self.btn_hexagono.grid(row=2, column=2)
+        self.btn_hexagono = BotoesEstados.btn_hexagono(self.estados)
+        self.btn_hexagono.grid(row=3, column=0)
         
         # Amostragem de seleção de cor interna
         self.mostra_cor_int = Label(self.frame, bg="black", width=4, height=2, relief="sunken", bd=2)
@@ -141,7 +146,7 @@ class PaintApp:
     def sair_tela_cheia(self, event=None):
         self.root.attributes("-fullscreen", False)
 
-    def redesenhar(self, figuras, figura_atual=None):
+    def redesenhar(self, figuras, figura_atual=None, figura_selecionada=None):
         self.canvas.delete("all")
 
         for figura in figuras:
@@ -152,6 +157,12 @@ class PaintApp:
                 self.canvas,
                 figura_atual,
                 (4,2)
+            )
+        
+        if figura_selecionada:
+            FormasSelecao.desenhar(
+                self.canvas,
+                figura_selecionada
             )
 
     def pedir_arquivo_abrir(self):

@@ -1,10 +1,10 @@
-from controlador.estados.estadoFiguras import EstadoFiguras
+from controlador.estados.criacaodefiguras.estadoCriacaoFigura import EstadoCriacaoFigura
 from modelo.figuras.circulo import Circulo
 
-class EstadoFiguraCirculo(EstadoFiguras):
+class EstadoFiguraCirculo(EstadoCriacaoFigura):
 
-    # Estado responsável pela criação de Círculos.
     def criar_figura(self, x, y, cor_linha, cor_interna):
+
         return Circulo(
             cor_linha,
             cor_interna,

@@ -34,3 +34,11 @@ class Hexagono(Figura):
         altura = abs(self.y2 - self.y1)
 
         return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1 
+
+    def contem(self, x, y):
+
+        return Formulas.ponto_no_poligono(
+            x,
+            y,
+            self.vertices()
+        )

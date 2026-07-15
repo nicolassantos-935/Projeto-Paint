@@ -3,5 +3,13 @@ from abc import ABC, abstractmethod
 class EstadoFiguras(ABC):
 
     @abstractmethod
-    def criar_figura(self, x, y, cor_linha, cor_interna):
+    def clicar(self, controlador, event):
+        pass
+    
+    @abstractmethod
+    def arrastar(self, controlador, event):
+        pass
+
+    @abstractmethod
+    def soltar(self, controlador, event):
         pass

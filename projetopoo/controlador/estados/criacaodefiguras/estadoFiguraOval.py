@@ -1,7 +1,7 @@
-from controlador.estados.estadoFiguras import EstadoFiguras
+from controlador.estados.criacaodefiguras.estadoCriacaoFigura import EstadoCriacaoFigura
 from modelo.figuras.oval import Oval
 
-class EstadoFiguraOval(EstadoFiguras):
+class EstadoFiguraOval(EstadoCriacaoFigura):
 
     # Estado responsável pela criação de Ovais.
     def criar_figura(self, x, y, cor_linha, cor_interna):

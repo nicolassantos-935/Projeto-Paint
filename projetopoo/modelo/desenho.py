@@ -36,3 +36,20 @@ class Desenho:
     def abrir(self, caminho):
         with open(caminho, "rb") as arquivo:
             self._figuras = pickle.load(arquivo)
+
+    def figura_em(self, x, y):
+
+        for figura in reversed(self._figuras):
+            if figura.contem(x, y):
+                return figura
+
+        return None
+    
+    def selecionar(self, x, y):
+
+        for figura in reversed(self._figuras):
+
+            if figura.contem(x, y):
+                return figura
+
+        return None

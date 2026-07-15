@@ -1,7 +1,7 @@
-from controlador.estados.estadoFiguras import EstadoFiguras
+from controlador.estados.criacaodefiguras.estadoCriacaoFigura import EstadoCriacaoFigura
 from modelo.figuras.pentagono import Pentagono
 
-class EstadoFiguraPentagono(EstadoFiguras):
+class EstadoFiguraPentagono(EstadoCriacaoFigura):
 
     # Estado responsável pela criação de pentágonos.
     def criar_figura(self, x, y, cor_linha, cor_interna):

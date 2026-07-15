@@ -31,3 +31,10 @@ class Circulo(Figura):
     # coincidir com o segundo ponto.
     def incompleta(self):
         return (((self.x2 - self.x1) ** 2) + ((self.y2 - self.y1) ** 2) ** 0.5) <= 3
+    
+    # Função que checará se o ponto que foi clicado pertence à figura
+    def contem(self, x, y):
+
+        raio = Formulas.raio(self.x1, self.y1, self.x2, self.y2)
+
+        return (x-self.x1)**2 + (y-self.y1)**2 <= raio**2

@@ -1,7 +1,7 @@
-from controlador.estados.estadoFiguras import EstadoFiguras
+from controlador.estados.criacaodefiguras.estadoCriacaoFigura import EstadoCriacaoFigura
 from modelo.figuras.rabisco import Rabisco
 
-class EstadoFiguraRabisco(EstadoFiguras):
+class EstadoFiguraRabisco(EstadoCriacaoFigura):
 
     # Estado responsável pela criação de Rabiscos.
     def criar_figura(self, x, y, cor_linha, cor_interna):

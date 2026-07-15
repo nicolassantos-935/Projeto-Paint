@@ -29,3 +29,16 @@ class Oval(Figura):
         altura = abs(self.y2 - self.y1)
 
         return largura <= 5 or altura <= 5
+    
+    # Função que checará se o ponto que foi clicado pertence à figura
+    def contem(self, x, y):
+
+        (x1, y1), (x2, y2) = self.metades()
+
+        cx = (x1 + x2) / 2
+        cy = (y1 + y2) / 2
+
+        a = (x2 - x1) / 2
+        b = (y2 - y1) / 2
+
+        return ((x-cx)/a)**2 + ((y-cy)/b)**2 <= 1

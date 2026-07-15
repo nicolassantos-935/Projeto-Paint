@@ -25,3 +25,7 @@ class Figura(ABC):
     @abstractmethod
     def incompleta(self): # Método que checará se a figura realmente é diferente de um único ponto e precisa ser desenhada
         pass
+
+    @abstractmethod
+    def contem(self, x, y):
+        pass

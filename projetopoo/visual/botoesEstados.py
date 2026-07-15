@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from visual.formasDesenhar import *
 
-class BotoesFormas():
+class BotoesEstados():
 
     @staticmethod
     def btn_linha(frame):
@@ -102,3 +102,14 @@ class BotoesFormas():
         )
         btn_hexagono.image = hexagono  # Mantém uma referência à imagem para evitar que seja coletada pelo garbage collector
         return btn_hexagono
+    
+    @staticmethod
+    def btn_selecao(frame):   
+        selecao = PhotoImage(file="projetopoo/visual/icones/selecao.png")
+        btn_selecao = ttk.Button(
+            frame,
+            image=selecao,
+            width=3
+        )
+        btn_selecao.image = selecao  # Mantém uma referência à imagem para evitar que seja coletada pelo garbage collector
+        return btn_selecao

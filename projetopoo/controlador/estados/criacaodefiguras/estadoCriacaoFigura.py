@@ -1,0 +1,48 @@
+from abc import ABC, abstractmethod
+from controlador.estados.estadoFiguras import EstadoFiguras
+
+class EstadoCriacaoFigura(EstadoFiguras, ABC):
+
+    @abstractmethod
+    def criar_figura(self, x, y, cor_linha, cor_interna):
+        pass
+
+
+    def clicar(self, controlador, event):
+
+        controlador.figura_atual = self.criar_figura(
+            event.x,
+            event.y,
+            controlador.visual.cor_linha.get(),
+            controlador.visual.cor_interna.get()
+        )
+
+
+    def arrastar(self, controlador, event):
+
+        if controlador.figura_atual is None:
+            return
+
+        controlador.figura_atual.atualizar(
+            event.x,
+            event.y
+        )
+
+        controlador.desenhar()
+
+
+    def soltar(self, controlador, event):
+
+        figura = controlador.figura_atual
+
+        if figura is None:
+            return
+
+        if not figura.incompleta():
+
+            controlador.desenho.adicionar(
+                figura
+            )
+
+        controlador.figura_atual = None
+        controlador.desenhar()

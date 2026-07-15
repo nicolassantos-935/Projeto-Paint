@@ -1,7 +1,7 @@
-from controlador.estados.estadoFiguras import EstadoFiguras
+from controlador.estados.criacaodefiguras.estadoCriacaoFigura import EstadoCriacaoFigura
 from modelo.figuras.retangulo import Retangulo
 
-class EstadoFiguraRetangulo(EstadoFiguras):
+class EstadoFiguraRetangulo(EstadoCriacaoFigura):
 
     # Estado responsável pela criação de Retângulos.
     def criar_figura(self, x, y, cor_linha, cor_interna):

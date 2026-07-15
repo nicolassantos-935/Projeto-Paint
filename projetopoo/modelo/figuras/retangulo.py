@@ -1,6 +1,6 @@
 from modelo.figuras.figura import Figura
 from dataclasses import dataclass
-
+from modelo.formulas import *
 
 @dataclass
 class Retangulo(Figura):
@@ -32,3 +32,12 @@ class Retangulo(Figura):
         altura = abs(self.y2 - self.y1)
 
         return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1
+    
+    # Função que checará se o ponto que foi clicado pertence à figura
+    def contem(self, x, y):
+
+        return Formulas.ponto_no_retangulo(
+            x,
+            y,
+            *self.lados()
+        )

@@ -1,5 +1,6 @@
 from modelo.figuras.figura import Figura
 from dataclasses import dataclass
+from modelo.formulas import *
 
 @dataclass
 
@@ -34,10 +35,15 @@ class Triangulo(Figura):
         return (base_esq_x, base_esq_y), (base_dir_x, base_dir_y)
 
     def partes(self):
-        
-        partes = (self.topos(), self.bases())
-    
-        return partes
+
+        topo = self.topos()
+        base_esq, base_dir = self.bases()
+
+        return (
+            topo,
+            base_esq,
+            base_dir
+        )
     
     def incompleta(self):
         
@@ -46,4 +52,10 @@ class Triangulo(Figura):
 
         return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1 
 
-    
+    def contem(self, x, y):
+        
+        return Formulas.ponto_no_poligono(
+            x,
+            y,
+            self.partes()
+        )
