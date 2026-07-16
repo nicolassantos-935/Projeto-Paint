@@ -33,7 +33,6 @@ class PaintApp:
         self.menu.add_cascade(label="Arquivo", menu=self.menu_arquivo)   
         self.root.config(menu=self.menu)
         
-
         self.criar_interface()
 
     def criar_interface(self): # Cria todos os componentes da interface gráfica.
@@ -42,13 +41,9 @@ class PaintApp:
 
         self.frame = Frame(self.root) #criando um bloco para organizar widgets
         self.frame.pack(fill="both", expand=True) # sobe para a janela
-        
-        # criando variáveis e iniciando valores
-        self.tipo_figura = StringVar(value="Linha") 
+
         self.cor_linha = StringVar(value="black")
         self.cor_interna = StringVar(value="Sem cor")
-    
-
         # Cria mensagem instrucional
         ttk.Label(
             self.frame,
@@ -100,7 +95,7 @@ class PaintApp:
         self.btn_hexagono.grid(row=3, column=0)
         
         # Amostragem de seleção de cor interna
-        self.mostra_cor_int = Label(self.frame, bg="black", width=4, height=2, relief="sunken", bd=2)
+        self.mostra_cor_int = Label(self.frame, bg="white", width=4, height=2, relief="sunken", bd=2)
         self.mostra_cor_int.grid(row=0, column=2, pady=(70, 0))
 
         # Amostragem de seleção de cor da linha
@@ -138,7 +133,24 @@ class PaintApp:
 
         self.frame.rowconfigure(2, weight=1)
         self.frame.columnconfigure(0, weight=1)
+
+        self.btn_remover = ttk.Button(
+            self.frame,
+            text="Remover"
+        )
+
+        self.btn_remover.grid(row=1 , column=1, sticky= W, **paddings)
     
+    def atualizar_cores(self, cor_linha, cor_interna):
+
+        self.cor_linha.set(cor_linha)
+        self.cor_interna.set(cor_interna)
+
+        self.mostra_cor_lin.config(bg=cor_linha)
+
+        self.mostra_cor_int.config(
+            bg=cor_interna
+        )
     def alternar_tela_cheia(self, event=None):
         atual = self.root.attributes("-fullscreen")
         self.root.attributes("-fullscreen", not atual)

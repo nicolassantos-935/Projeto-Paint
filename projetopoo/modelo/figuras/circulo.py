@@ -1,40 +1,96 @@
 from dataclasses import dataclass
 from modelo.figuras.figura import Figura
 from modelo.formulas import Formulas
+
+
 @dataclass
 class Circulo(Figura):
+    """
+    Representa uma figura do tipo círculo.
 
-    # Centro do círculo
+    O círculo é definido pelo seu centro e por um segundo
+    ponto utilizado para calcular o raio.
+    """
+
+    # Centro do círculo.
     x1: int
     y1: int
 
-    # Ponto usado para calcular o raio
+    # Ponto utilizado para calcular o raio.
     x2: int
     y2: int
-    
-    # Atualiza o segundo ponto utilizado para calcular o raio.
+
     def atualizar(self, x, y):
+        """
+        Atualiza o ponto utilizado para calcular o raio.
+        """
+
         self.x2 = x
         self.y2 = y
 
-    # Calcula as porçoes do círculo utilizando o centro e o raio.
+    def raio(self):
+        """
+        Calcula o raio do círculo.
+        """
+
+        return Formulas.raio(
+            self.x1,
+            self.y1,
+            self.x2,
+            self.y2
+        )
+
     def porcoes(self):
-        
-        raio = Formulas.raio(self.x1, self.y1, self.x2, self.y2)
+        """
+        Retorna os vértices do retângulo que delimita
+        o círculo.
+        """
 
-        metade1 = (self.x1 - raio, self.y1 - raio)
-        metade2 = (self.x1 + raio, self.y1 + raio)
-        
-        return (metade1, metade2)
+        raio = self.raio()
 
-    # O círculo é considerado incompleto se o centro
-    # coincidir com o segundo ponto.
+        canto_superior = (
+            self.x1 - raio,
+            self.y1 - raio
+        )
+
+        canto_inferior = (
+            self.x1 + raio,
+            self.y1 + raio
+        )
+
+        return (
+            canto_superior,
+            canto_inferior
+        )
+
     def incompleta(self):
-        return (((self.x2 - self.x1) ** 2) + ((self.y2 - self.y1) ** 2) ** 0.5) <= 3
-    
-    # Função que checará se o ponto que foi clicado pertence à figura
+        """
+        Verifica se o círculo possui raio suficiente
+        para ser adicionado ao desenho.
+        """
+
+        return self.raio() <= 3
+
     def contem(self, x, y):
+        """
+        Verifica se um ponto pertence ao interior
+        do círculo.
+        """
 
-        raio = Formulas.raio(self.x1, self.y1, self.x2, self.y2)
+        raio = self.raio()
 
-        return (x-self.x1)**2 + (y-self.y1)**2 <= raio**2
+        return (
+            (x - self.x1) ** 2 +
+            (y - self.y1) ** 2
+        ) <= raio ** 2
+
+    def ponto_redimensionamento(self):
+        """
+        Retorna o ponto utilizado para redimensionar
+        o círculo.
+        """
+
+        return (
+            self.x2,
+            self.y2
+        )

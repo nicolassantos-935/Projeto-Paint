@@ -1,44 +1,92 @@
-from modelo.figuras.figura import Figura
 from dataclasses import dataclass
+from modelo.figuras.figura import Figura
 from modelo.formulas import Formulas
 
+
 @dataclass
-
 class Hexagono(Figura):
-    '''
-    Esta classe permite a criacao de figuras hexagono a partir dos metodos da classe figura
-    sendo assim possivel desenhar hexagonos no canvas, atualizar suas coordenadas durante a criaçao
-    e saber se a figura está imcompleta ou nao, alem disso, possui o metado vertices para para calcular
-    os vertices do hexagono, atributos essenciais para a criacao de hexagonos e o metodo direcao para saber a direção do hexagono, 
-    se é para cima ou para baixo, esquerda ou direita
-    '''
+    """
+    Representa uma figura do tipo hexágono.
 
-    x1:int
-    y1:int
-    x2:int
-    y2:int
+    O hexágono é definido por dois pontos que delimitam
+    a região onde seus seis vértices serão calculados.
+    """
 
-    def atualizar(self,x,y):
+    # Coordenadas dos pontos utilizados para construir
+    # o hexágono.
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+
+    def atualizar(self, x, y):
+        """
+        Atualiza o segundo ponto do hexágono.
+        """
+
         self.x2 = x
         self.y2 = y
 
     def vertices(self):
-        return Formulas.vertices(self.x1, self.y1, self.x2, self.y2,6)
-    
+        """
+        Calcula os seis vértices do hexágono.
+        """
+
+        return Formulas.vertices(
+            self.x1,
+            self.y1,
+            self.x2,
+            self.y2,
+            6
+        )
+
     def direcao(self):
-        return Formulas.direcao(self.x1, self.y1, self.x2, self.y2)
+        """
+        Retorna a direção em que o hexágono está sendo
+        desenhado.
+        """
+
+        return Formulas.direcao(
+            self.x1,
+            self.y1,
+            self.x2,
+            self.y2
+        )
 
     def incompleta(self):
-        
+        """
+        Verifica se o hexágono possui tamanho suficiente
+        para ser adicionado ao desenho.
+        """
+
         largura = abs(self.x2 - self.x1)
         altura = abs(self.y2 - self.y1)
 
-        return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1 
+        return (
+            (self.x1, self.y1) == (self.x2, self.y2)
+            or largura <= 1
+            or altura <= 1
+        )
 
     def contem(self, x, y):
+        """
+        Verifica se um ponto pertence ao interior
+        do hexágono.
+        """
 
         return Formulas.ponto_no_poligono(
             x,
             y,
             self.vertices()
+        )
+
+    def ponto_redimensionamento(self):
+        """
+        Retorna o ponto utilizado para redimensionar
+        o hexágono.
+        """
+
+        return (
+            self.x2,
+            self.y2
         )

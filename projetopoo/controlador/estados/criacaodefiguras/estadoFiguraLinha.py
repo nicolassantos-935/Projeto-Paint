@@ -7,7 +7,7 @@ class EstadoFiguraLinha(EstadoCriacaoFigura):
     def criar_figura(self, x, y, cor_linha, cor_interna):
         return Linha(
             cor_linha,
-            "",
+            cor_interna,
             x,
             y,
             x,

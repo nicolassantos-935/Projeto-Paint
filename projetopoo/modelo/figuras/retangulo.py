@@ -1,43 +1,76 @@
-from modelo.figuras.figura import Figura
 from dataclasses import dataclass
-from modelo.formulas import *
+from modelo.figuras.figura import Figura
+from modelo.formulas import Formulas
+
 
 @dataclass
 class Retangulo(Figura):
-    
-    '''
-    Esta classe permite a criacao de figuras retangulo a partir dos metodos da classe figura
-    sendo assim possivel desenhar retangulos no canvas, atualizar suas coordenadas durante a criaçao
-    e saber se a figura está imcompleta ou nao
-    '''
+    """
+    Representa uma figura do tipo retângulo.
 
-    x1:int
-    y1:int
-    x2:int
-    y2:int
+    Armazena dois vértices opostos do retângulo, permitindo
+    atualizar seu tamanho, verificar se está completo,
+    testar se um ponto pertence à figura e definir o ponto
+    utilizado para redimensionamento.
+    """
 
-    def atualizar(self,x,y):
+    # Coordenadas dos vértices opostos do retângulo.
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+
+    def atualizar(self, x, y):
+        """
+        Atualiza o segundo vértice do retângulo.
+        """
+
         self.x2 = x
         self.y2 = y
-    
+
     def lados(self):
-        
-        lados_esq = (self.x1, self.y1)
-        lados_dir = (self.x2, self.y2)
-        
-        return (lados_esq, lados_dir)
+        """
+        Retorna os dois vértices opostos do retângulo.
+        """
+
+        return (
+            (self.x1, self.y1),
+            (self.x2, self.y2)
+        )
 
     def incompleta(self):
+        """
+        Verifica se o retângulo possui tamanho suficiente
+        para ser adicionado ao desenho.
+        """
+
         largura = abs(self.x2 - self.x1)
         altura = abs(self.y2 - self.y1)
 
-        return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1
-    
-    # Função que checará se o ponto que foi clicado pertence à figura
+        return (
+            (self.x1, self.y1) == (self.x2, self.y2)
+            or largura <= 1
+            or altura <= 1
+        )
+
     def contem(self, x, y):
+        """
+        Verifica se um ponto pertence ao interior do retângulo.
+        """
 
         return Formulas.ponto_no_retangulo(
             x,
             y,
             *self.lados()
+        )
+
+    def ponto_redimensionamento(self):
+        """
+        Retorna o canto utilizado para redimensionar
+        o retângulo.
+        """
+
+        return (
+            self.x2,
+            self.y2
         )

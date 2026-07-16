@@ -1,61 +1,111 @@
-from modelo.figuras.figura import Figura
 from dataclasses import dataclass
-from modelo.formulas import *
+from modelo.figuras.figura import Figura
+from modelo.formulas import Formulas
+
 
 @dataclass
-
 class Triangulo(Figura):
-    '''
-    Esta classe permite a criacao de figuras triangulo a partir dos metodos da classe figura
-    sendo assim possivel desenhar triangulos no canvas, atualizar suas coordenadas durante a criaçao
-    e saber se a figura está imcompleta ou nao, alem disso, possui os metodos topo e bases para calcular os pontos do triangulo
-    e o metodo partes que une os 2 em mesma tupla para organizar os dados e desenha-lo corretamente
-    '''
+    """
+    Representa uma figura do tipo triângulo.
 
-    x1:int
-    y1:int
-    x2:int
-    y2:int
+    O triângulo é definido por dois pontos que delimitam
+    um retângulo imaginário. A partir desse retângulo são
+    calculados os três vértices do triângulo.
+    """
 
-    def atualizar(self,x,y):
+    # Coordenadas dos pontos utilizados para construir
+    # o triângulo.
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+
+    def atualizar(self, x, y):
+        """
+        Atualiza o segundo ponto do triângulo.
+        """
+
         self.x2 = x
         self.y2 = y
 
-    def topos(self):
-        topo_x = (self.x1 + self.x2) //2
-        topo_y = self.y1
-        
-        return (topo_x, topo_y)
+    def topo(self):
+        """
+        Calcula o vértice superior do triângulo.
+        """
+
+        return (
+            (self.x1 + self.x2) // 2,
+            self.y1
+        )
 
     def bases(self):
-        
-        base_esq_x, base_esq_y = self.x1, self.y2
-        base_dir_x, base_dir_y = self.x2, self.y2
-        
-        return (base_esq_x, base_esq_y), (base_dir_x, base_dir_y)
+        """
+        Calcula os dois vértices da base do triângulo.
+        """
 
-    def partes(self):
+        base_esquerda = (
+            self.x1,
+            self.y2
+        )
 
-        topo = self.topos()
-        base_esq, base_dir = self.bases()
+        base_direita = (
+            self.x2,
+            self.y2
+        )
+
+        return (
+            base_esquerda,
+            base_direita
+        )
+
+    def vertices(self):
+        """
+        Retorna os três vértices do triângulo.
+        """
+
+        topo = self.topo()
+        base_esquerda, base_direita = self.bases()
 
         return (
             topo,
-            base_esq,
-            base_dir
+            base_esquerda,
+            base_direita
         )
-    
+
     def incompleta(self):
-        
+        """
+        Verifica se o triângulo possui tamanho suficiente
+        para ser adicionado ao desenho.
+        """
+
         largura = abs(self.x2 - self.x1)
         altura = abs(self.y2 - self.y1)
 
-        return (self.x1, self.y1) == (self.x2, self.y2) or largura <= 1 or altura <= 1 
+        return (
+            (self.x1, self.y1) == (self.x2, self.y2)
+            or largura <= 1
+            or altura <= 1
+        )
 
     def contem(self, x, y):
-        
+        """
+        Verifica se um ponto pertence ao interior
+        do triângulo.
+        """
+
         return Formulas.ponto_no_poligono(
             x,
             y,
-            self.partes()
+            self.vertices()
+        )
+
+    def ponto_redimensionamento(self):
+        """
+        Retorna o ponto utilizado para redimensionar
+        o triângulo.
+        """
+
+        return (
+            self.x2,
+            self.y2
         )

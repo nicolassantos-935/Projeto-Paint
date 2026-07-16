@@ -13,3 +13,13 @@ class EstadoFiguras(ABC):
     @abstractmethod
     def soltar(self, controlador, event):
         pass
+
+    #implementação padrão
+    def clicar_direito(self, controlador, event):
+        pass
+    
+    def arrastar_direito(self, controlador, event):
+        pass
+
+    def soltar_direito(self, controlador, event):
+        pass

@@ -7,6 +7,6 @@ class EstadoFiguraRabisco(EstadoCriacaoFigura):
     def criar_figura(self, x, y, cor_linha, cor_interna):
         return Rabisco(
             cor_linha,
-            "",
+            cor_interna,
             [(x, y)]
         )

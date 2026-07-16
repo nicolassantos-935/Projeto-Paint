@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from controlador.estados.estadoFiguras import EstadoFiguras
+from controlador.comandos.ComandoAdicionarFigura import ComandoAdicionarFigura
+
 
 class EstadoCriacaoFigura(EstadoFiguras, ABC):
 
@@ -33,16 +35,18 @@ class EstadoCriacaoFigura(EstadoFiguras, ABC):
 
     def soltar(self, controlador, event):
 
-        figura = controlador.figura_atual
-
-        if figura is None:
+        if controlador.figura_atual is None:
             return
 
-        if not figura.incompleta():
+        if not controlador.figura_atual.incompleta():
 
-            controlador.desenho.adicionar(
-                figura
+            comando = ComandoAdicionarFigura(
+                controlador.desenho,
+                controlador.figura_atual
             )
 
+            controlador.executar_comando(comando)
+
         controlador.figura_atual = None
+
         controlador.desenhar()

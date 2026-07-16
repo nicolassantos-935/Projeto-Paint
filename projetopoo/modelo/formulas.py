@@ -9,7 +9,6 @@ class Formulas():
     o metodo vertices que calcula os vertices de um poligono regular a partir do centro, do raio e de trigonometria
     '''
 
-
     def __init__(self):
         pass
     
