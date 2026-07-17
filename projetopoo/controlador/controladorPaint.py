@@ -21,7 +21,8 @@ from controlador.comandos.ComandoRemoverFigura import *
 from controlador.comandos.ComandoAlterarCorInterna import * 
 from controlador.comandos.ComandoAlterarCorLinha import * 
 from controlador.comandos.ComandoRedimensionarFigura import * 
-from controlador.comandos.ComandoMoverFigura import * 
+from controlador.comandos.ComandoMoverFigura import *
+from controlador.comandos.ComandoMoverCamada import * 
 
 class ControladorPaint:
         
@@ -56,6 +57,10 @@ class ControladorPaint:
         self.visual.root.bind("<Control-n>", self.novo) # Comando novo, que possibilita limpar o canvas atual.
         self.visual.root.bind("<Control-o>", self.abrir) # Comando abrir, que possibilita abrir um canvas salvo em um arquivo no dispositivo do usuário.
         self.visual.root.bind("<Control-z>", self.desfazer)
+        self.visual.root.bind("<Up>", self.camada_topo)
+        self.visual.root.bind("<Down>", self.camada_fundo)
+        self.visual.root.bind("<Right>", self.subir_camada)
+        self.visual.root.bind("<Left>", self.descer_camada)
 
         # Associa cada botão da interface ao estado correspondente,
         # alterando a ferramenta de desenho selecionada.
@@ -242,6 +247,66 @@ class ControladorPaint:
             self.visual.cor_interna.get()
         )
         self.figura_selecionada = None
+
+    def subir_camada(self, event=None):
+
+        if self.figura_selecionada is None:
+            return
+
+        indice = self.desenho.indice_da_figura(
+            self.figura_selecionada
+        )
+
+        comando = ComandoMoverCamada(
+            self.desenho,
+            self.figura_selecionada,
+            indice + 1
+        )
+
+        self.executar_comando(comando)
+
+    def descer_camada(self, event=None):
+
+        if self.figura_selecionada is None:
+            return
+
+        indice = self.desenho.indice_da_figura(
+            self.figura_selecionada
+        )
+
+        comando = ComandoMoverCamada(
+            self.desenho,
+            self.figura_selecionada,
+            indice - 1
+        )
+
+        self.executar_comando(comando)
+
+    def camada_topo(self, event=None):
+
+        if self.figura_selecionada is None:
+            return
+
+        comando = ComandoMoverCamada(
+            self.desenho,
+            self.figura_selecionada,
+            len(self.desenho.listar())
+        )
+
+        self.executar_comando(comando)
+    
+    def camada_fundo(self, event=None):
+
+        if self.figura_selecionada is None:
+            return
+
+        comando = ComandoMoverCamada(
+            self.desenho,
+            self.figura_selecionada,
+            0
+        )
+
+        self.executar_comando(comando)
 
     def executar_comando(self, comando):
 

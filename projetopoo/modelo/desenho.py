@@ -70,3 +70,23 @@ class Desenho:
 
         with open(caminho, "rb") as arquivo:
             self._figuras = pickle.load(arquivo)
+
+    def indice_da_figura(self, figura):
+        return self._figuras.index(figura)
+
+    def mover_para_indice(self, figura, novo_indice):
+
+        if figura not in self._figuras:
+            return
+
+        self._figuras.remove(figura)
+
+        novo_indice = max(
+            0,
+            min(novo_indice, len(self._figuras))
+        )
+
+        self._figuras.insert(
+            novo_indice,
+            figura
+        )

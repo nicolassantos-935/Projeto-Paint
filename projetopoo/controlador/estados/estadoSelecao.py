@@ -26,8 +26,8 @@ class EstadoSelecao(EstadoFiguras):
         if controlador.figura_selecionada is None:
 
             controlador.visual.atualizar_cores(
-                controlador.cor_linha_padrao,
-                controlador.cor_interna_padrao
+                controlador.visual.cor_linha.get(),
+                controlador.visual.cor_interna.get()
             )
 
             controlador.desenhar()
