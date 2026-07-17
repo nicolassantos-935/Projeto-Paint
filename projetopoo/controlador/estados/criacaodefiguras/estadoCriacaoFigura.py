@@ -40,13 +40,12 @@ class EstadoCriacaoFigura(EstadoFiguras, ABC):
 
         if not controlador.figura_atual.incompleta():
 
-            comando = ComandoAdicionarFigura(
-                controlador.desenho,
-                controlador.figura_atual
+            controlador.executar_comando(
+                ComandoAdicionarFigura(
+                    controlador.desenho,
+                    controlador.figura_atual
+                )
             )
 
-            controlador.executar_comando(comando)
-
         controlador.figura_atual = None
-
         controlador.desenhar()

@@ -93,3 +93,15 @@ class Rabisco(Figura):
         """
 
         self.pontos = estado.copy()
+
+    def pode_mover(self):
+        """
+        O rabisco não permite movimentação.
+        """
+        return False
+
+    def pode_redimensionar(self):
+        """
+        O rabisco não permite redimensionamento.
+        """
+        return False

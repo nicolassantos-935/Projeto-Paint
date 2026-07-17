@@ -26,7 +26,7 @@ class FormasDesenhar:
     def desenhar_linha(canvas, linha, dash=()):
 
         canvas.create_line(
-            *linha.pontos(),
+            linha.pontos(),
             fill=linha.cor_linha,
             dash=dash
         )
@@ -37,7 +37,7 @@ class FormasDesenhar:
         fill = "" if retangulo.cor_interna == "Sem cor" else retangulo.cor_interna
 
         canvas.create_rectangle(
-            *retangulo.lados(),
+            retangulo.lados(),
             outline=retangulo.cor_linha,
             fill=fill,
             dash=dash
@@ -49,7 +49,7 @@ class FormasDesenhar:
         fill = "" if oval.cor_interna == "Sem cor" else oval.cor_interna
 
         canvas.create_oval(
-            *oval.metades(),
+            oval.metades(),
             outline=oval.cor_linha,
             fill=fill,
             dash=dash
@@ -61,7 +61,7 @@ class FormasDesenhar:
         fill = "" if circulo.cor_interna == "Sem cor" else circulo.cor_interna
 
         canvas.create_oval(
-            *circulo.porcoes(),
+            circulo.porcoes(),
             outline=circulo.cor_linha,
             fill=fill,
             dash=dash
@@ -73,7 +73,7 @@ class FormasDesenhar:
         fill = "" if quadrado.cor_interna == "Sem cor" else quadrado.cor_interna
 
         canvas.create_rectangle(
-            *quadrado.lados_iguais(),
+            quadrado.lados_iguais(),
             outline=quadrado.cor_linha,
             fill=fill,
             dash=dash
@@ -85,20 +85,8 @@ class FormasDesenhar:
         fill = "" if triangulo.cor_interna == "Sem cor" else triangulo.cor_interna
 
         canvas.create_polygon(
-            *triangulo.vertices(),   # <-- CORRIGIDO
+            triangulo.vertices(),   # <-- CORRIGIDO
             outline=triangulo.cor_linha,
-            fill=fill,
-            dash=dash
-        )
-
-    @staticmethod
-    def desenhar_pentagono(canvas, pentagono, dash=()):
-
-        fill = "" if pentagono.cor_interna == "Sem cor" else pentagono.cor_interna
-
-        canvas.create_polygon(
-            *pentagono.vertices(),
-            outline=pentagono.cor_linha,
             fill=fill,
             dash=dash
         )
@@ -109,12 +97,24 @@ class FormasDesenhar:
         fill = "" if hexagono.cor_interna == "Sem cor" else hexagono.cor_interna
 
         canvas.create_polygon(
-            *hexagono.vertices(),
+            hexagono.vertices(),
             outline=hexagono.cor_linha,
             fill=fill,
             dash=dash
         )
 
+    @staticmethod
+    def desenhar_pentagono(canvas, pentagono, dash=()):
+
+        fill = "" if pentagono.cor_interna == "Sem cor" else pentagono.cor_interna
+
+        canvas.create_polygon(
+            pentagono.vertices(),
+            outline=pentagono.cor_linha,
+            fill=fill,
+            dash=dash
+        )
+    
     @staticmethod
     def desenhar(canvas, figura, dash=()):
 

@@ -42,7 +42,6 @@ class ControladorPaint:
 
         self.canvas = self.visual.canvas
 
-        self.visual.btn_remover.config(command=self.remover_figura)
         self.visual.btn_cor_interna.config(command=self.escolher_cor_interna)
         self.visual.btn_cor_linha.config(command=self.escolher_cor_linha)
             
@@ -105,6 +104,12 @@ class ControladorPaint:
 
         self.estado = estado
         self.figura_selecionada = None
+
+        self.visual.atualizar_cores(
+            self.visual.cor_linha.get(),
+            self.visual.cor_interna.get()
+        )
+
         self.desenhar()
         
     def desenhar(self): # Redesenha todas as figuras presentes no canvas.
@@ -123,6 +128,7 @@ class ControladorPaint:
             return
 
         if self.figura_selecionada:
+
             comando = ComandoAlterarCorLinha(
                 self.figura_selecionada,
                 cor
@@ -130,10 +136,12 @@ class ControladorPaint:
 
             self.executar_comando(comando)
 
-        else:
-            self.visual.cor_linha.set(cor)
+            self.visual.mostra_cor_lin.config(bg=cor)
 
-        self.visual.mostra_cor_lin.config(bg=cor)
+        else:
+
+            self.visual.cor_linha.set(cor)
+            self.visual.mostra_cor_lin.config(bg=cor)
 
     def escolher_cor_interna(self):
 
@@ -143,6 +151,7 @@ class ControladorPaint:
             return
 
         if self.figura_selecionada:
+
             comando = ComandoAlterarCorInterna(
                 self.figura_selecionada,
                 cor
@@ -150,10 +159,16 @@ class ControladorPaint:
 
             self.executar_comando(comando)
 
+            self.visual.mostra_cor_int.config(bg=cor)
+
         else:
+
             self.visual.cor_interna.set(cor)
-        
-        self.visual.mostra_cor_int.config(bg=cor)
+
+            if cor == "Sem cor":
+                self.visual.mostra_cor_int.config(bg="white")
+            else:
+                self.visual.mostra_cor_int.config(bg=cor)
 
     # controlador.Comandos que se referem ao manuseio de arquivos
     def novo(self, event=None):
@@ -223,8 +238,8 @@ class ControladorPaint:
         self.executar_comando(comando)
 
         self.visual.atualizar_cores(
-            "black",
-            "white"
+            self.visual.cor_linha.get(),
+            self.visual.cor_interna.get()
         )
         self.figura_selecionada = None
 

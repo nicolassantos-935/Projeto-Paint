@@ -21,6 +21,7 @@ class PaintApp:
         self.root.attributes("-fullscreen", True)
 
         self.menu = Menu(self.root, bg="gray")
+        self.cor_interna = StringVar(value="Sem cor")
 
         # Menu Arquivo
         self.menu_arquivo = Menu(self.menu, tearoff=0)
@@ -133,24 +134,24 @@ class PaintApp:
 
         self.frame.rowconfigure(2, weight=1)
         self.frame.columnconfigure(0, weight=1)
-
-        self.btn_remover = ttk.Button(
-            self.frame,
-            text="Remover"
-        )
-
-        self.btn_remover.grid(row=1 , column=1, sticky= W, **paddings)
     
     def atualizar_cores(self, cor_linha, cor_interna):
 
         self.cor_linha.set(cor_linha)
         self.cor_interna.set(cor_interna)
 
-        self.mostra_cor_lin.config(bg=cor_linha)
+        self.mostra_cor_lin.config(
+            bg=cor_linha
+        )
+
+        cor_icone = "white"
+
+        if cor_interna != "Sem cor":
+            cor_icone = cor_interna
 
         self.mostra_cor_int.config(
-            bg=cor_interna
-        )
+            bg=cor_icone
+    )
     def alternar_tela_cheia(self, event=None):
         atual = self.root.attributes("-fullscreen")
         self.root.attributes("-fullscreen", not atual)

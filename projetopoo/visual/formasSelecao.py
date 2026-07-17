@@ -18,7 +18,7 @@ class FormasSelecao:
         canvas.create_line(
             rabisco.pontos,
             fill="red",
-            dash = (10,1),
+            dash = (4, 2),
             width=4
         )
 
@@ -29,7 +29,7 @@ class FormasSelecao:
             (linha.x1,linha.y1),
             (linha.x2,linha.y2),
             fill = "red",
-            dash = (10,1),
+            dash = (4, 2),
             width=4
         )
     
@@ -40,7 +40,7 @@ class FormasSelecao:
             oval.metades(),
             outline = "red",
             fill = "",
-            dash = (10,1),
+            dash = (4, 2),
             width=4
         )
 
@@ -51,7 +51,7 @@ class FormasSelecao:
             retangulo.lados(),
             outline="red",
             fill= "",
-            dash = (10,1),
+            dash = (4, 2),
             width=4
         )
     
@@ -63,7 +63,7 @@ class FormasSelecao:
             Circulo.porcoes(circulo),
             outline="red",
             fill="",
-            dash=(10,1),
+            dash=(4, 2),
             width=4
         )
 
@@ -75,7 +75,7 @@ class FormasSelecao:
             quadrado.lados_iguais(),
             outline="red",
             fill= "",
-            dash = (10,1),
+            dash = (4, 2),
             width=4
         )
     
@@ -84,10 +84,10 @@ class FormasSelecao:
 
         #utiliza dos dados calculados no metodo partes da classe triangulo para desenhar o triangulo
         canvas.create_polygon(
-            triangulo.partes(),
+            triangulo.vertices(),
             outline="red",
             fill= "",
-            dash = (10,1),
+            dash = (4, 2),
             width=4
         )
     
@@ -101,7 +101,7 @@ class FormasSelecao:
             *vertices,
             outline="red",
             fill="",
-            dash=(10,1),
+            dash=(4, 2),
             width=4
         )
     @staticmethod
@@ -114,7 +114,7 @@ class FormasSelecao:
             *vertices,
             outline="red",
             fill="",
-            dash=(10,1),
+            dash=(4, 2),
             width=4
         )
     

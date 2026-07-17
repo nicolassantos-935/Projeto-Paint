@@ -104,3 +104,23 @@ class Figura(ABC):
             self.x2,
             self.y2
         ) = estado
+
+    def pode_mover(self):
+        """
+        Indica se a figura pode ser movimentada pelo usuário.
+
+        Por padrão, todas as figuras podem ser movidas.
+        Classes que não permitem movimentação devem
+        sobrescrever este método retornando False.
+        """
+        return True
+
+    def pode_redimensionar(self):
+        """
+        Indica se a figura pode ser redimensionada pelo usuário.
+
+        Por padrão, todas as figuras podem ser redimensionadas.
+        Classes que não permitem redimensionamento devem
+        sobrescrever este método retornando False.
+        """
+        return True
