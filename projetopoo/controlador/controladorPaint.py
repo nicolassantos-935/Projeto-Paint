@@ -33,6 +33,7 @@ class ControladorPaint:
         self.estado = EstadoFiguraLinha()
         self.figura_selecionada = None
         self.historico = []
+        self.area_transferencia = None
 
         self.mouse_x = 0
         self.mouse_y = 0
@@ -61,6 +62,8 @@ class ControladorPaint:
         self.visual.root.bind("<Down>", self.camada_fundo)
         self.visual.root.bind("<Right>", self.subir_camada)
         self.visual.root.bind("<Left>", self.descer_camada)
+        self.visual.root.bind("<Control-c>", self.copiar_figura)
+        self.visual.root.bind("<Control-v>", self.colar_figura)
 
         # Associa cada botão da interface ao estado correspondente,
         # alterando a ferramenta de desenho selecionada.
@@ -307,6 +310,35 @@ class ControladorPaint:
         )
 
         self.executar_comando(comando)
+
+    def copiar_figura(self, event=None):
+
+        self.deslocamento = 0
+
+        if self.figura_selecionada:
+            self.area_transferencia = (
+                self.figura_selecionada.clonar()
+            )
+
+    def colar_figura(self, event=None):
+
+        self.deslocamento += 20
+
+        if self.area_transferencia is None:
+            return
+
+        nova = self.area_transferencia.clonar()
+        nova.mover(self.deslocamento, self.deslocamento)
+
+        self.executar_comando(
+            ComandoAdicionarFigura(
+                self.desenho,
+                nova
+            )
+        )
+
+        self.figura_selecionada = nova
+        self.desenhar()
 
     def executar_comando(self, comando):
 

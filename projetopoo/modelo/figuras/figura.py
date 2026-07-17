@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-
+import copy
 
 @dataclass
 class Figura(ABC):
@@ -124,3 +124,6 @@ class Figura(ABC):
         sobrescrever este método retornando False.
         """
         return True
+    
+    def clonar(self):
+        return copy.deepcopy(self)
