@@ -60,10 +60,9 @@ class FormasSelecao:
 
         # Desenha o círculo utilizando o centro e o raio.
         canvas.create_oval(
-            Circulo.porcoes(circulo),
+            *circulo.porcoes(),
             outline="red",
             fill="",
-            dash=(4, 2),
             width=4
         )
 
@@ -84,7 +83,7 @@ class FormasSelecao:
 
         #utiliza dos dados calculados no metodo partes da classe triangulo para desenhar o triangulo
         canvas.create_polygon(
-            triangulo.vertices(),
+            *triangulo.vertices(),
             outline="red",
             fill= "",
             dash = (4, 2),
